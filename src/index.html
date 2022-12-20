@@ -1,49 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link  href="style.css" />
     <title>Online shop</title>
-</head>
-<body>
+  </head>
+  <body>
     <header class="header container">
-        <img src="https://i.ibb.co/0DjfXtT/online-shop-high-resolution-logo-color-on-transparent-background.png)" alt="logo" class="header__logo">
-        <div class="header__search">
-            <input type="search" name="search" id="search" class="header__search-input" placeholder="Search on Online shop!">
+      <img
+        src="https://i.ibb.co/0DjfXtT/online-shop-high-resolution-logo-color-on-transparent-background.png)"
+        alt="logo"
+        class="header__logo"
+      />
+      <div class="header__search">
+        <input
+          type="search"
+          name="search"
+          id="search"
+          class="header__search-input"
+          placeholder="Search on Online shop!"
+          autocomplete="off"
+        />
+      </div>
+      <div class="header__basket">
+        <div class="header__basket_items-count">12</div>
+      </div>
+      <div class="header__total">
+        <span>TOTAL: </span>
+        <span class="header__total-sum">15000$</span>
+      </div>
+    </header>
+    <main class="main container">
+      <section class="filter">
+        <div class="filter__item">
+          <h2 class="filter__title">Category</h2>
+          <div class="filter__list" id="category-list">
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category1"><label for="category1">Smartphones</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category2"><label for="category2">laptops</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category3"><label for="category3">fragrances</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category4"><label for="category4">skincare</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category5"><label for="category5">groceries</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category6"><label for="category6">home-decoratin</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category7"><label for="category7">furniture</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category8"><label for="category8">tops</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category9"><label for="category9">womes-dresses</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category10"><label for="category10">womes-shoes</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category11"><label for="category11">mens-shirts</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category12"><label for="category12">mens-shoes</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category13"><label for="category13">mens-watches</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category14"><label for="category14">womes-watches</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category15"><label for="category15">womes-bags</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category16"><label for="category16">womes-jewellery</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category17"><label for="category17">sunglasses</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category18"><label for="category18">automotive</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category19"><label for="category19">motorcycle</label></div>
+            <div class="filter__list_item"><input type="checkbox" name="category" id="category20"><label for="category20">lightning</label></div>
+          </div>
         </div>
-        <div class="header__basket">
-            <div class="header__basket_items-count">12</div>
+        <div class="filter__item">
+          <h2 class="filter__title">Brand</h2>
+          <div class="filter__list">
+            
+          </div>
         </div>
-        <div class="header__total">
-            <span>TOTAL: </span>
-            <span class="header__total-sum">15000$</span>
+        <div class="filter__item">
+          <h2 class="filter__title">Price</h2>
+          <div class="dual-slider">
+            <div class="dual-slider__values">
+                <span id="price-range1">
+                    0
+                </span>
+                <span> &dash; </span>
+                <span id="price-range2">
+                    150
+                </span>
+            </div>
+            <div class="dual-slider__input">
+                <div class = "price-slider__track"></div>
+                <input type="range" min="0" max="1749" value="0" id="price-slider-1">
+                <input type="range" min="0" max="1749" value="1749" id="price-slider-2">
+            </div>
         </div>
-      </header>
-      <main class="main container">
-        <section class="filter">
-            <div class="filter__item">
-                <h2 class="filter__title">Category</h2>
+        </div>
+        <div class="filter__item">
+          <h2 class="filter__title">Stock</h2>
+          <div class="dual-slider">
+            <div class="dual-slider__values">
+                <span id="stock-range1">
+                    0
+                </span>
+                <span> &dash; </span>
+                <span id="stock-range2">
+                    150
+                </span>
             </div>
-            <div class="filter__item">
-                <h2 class="filter__title">Brand</h2>
+            <div class="dual-slider__input">
+                <div class = "stock-slider__track"></div>
+                <input type="range" min="0" max="100" value="0" id="stock-slider-1">
+                <input type="range" min="0" max="100" value="100" id="stock-slider-2">
             </div>
-            <div class="filter__item">
-                <h2 class="filter__title">Price</h2>
-            </div>
-            <div class="filter__item">
-                <h2 class="filter__title">Stock</h2>
-                
-            </div>
-        </section>
-        <section class="products"></section>
-      </main>
-      <footer class="footer container">
-        <a href="https://github.com/" class="footer__git"></a>
-        <span class="footer__year">2022</span>
-        <a href="https://rs.school/js/" class="footer__rss"></a>
-        
+        </div>
+        </div>
+      </section>
+      <section class="products"></section>
+    </main>
+    <footer class="footer container">
+      <a href="https://github.com/" class="footer__git"></a>
+      <span class="footer__year">2022</span>
+      <a href="https://rs.school/js/" class="footer__rss"></a>
     </footer>
-</body>
+
+  </body>
 </html>
