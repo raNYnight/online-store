@@ -1,26 +1,95 @@
-import { product } from './draw'
-
-export let filtered :product[]
-
-// function filterByNum(arr, param, value1, value2) {
-//   console.log(`val1 = ${value1} and ${typeof value1}, value2 = ${value2}`);
-//   let result = arr.filter((el) => el[param] >= Number(value1) && el[param] <= Number(value2));
-//   console.log(result);
-//   return result;
-// }
+import { draw, Product } from './draw'
+import * as dualSlider from './dual-slider'
 
 
-export function filterNumber(arr:product[], param:string, value1:string | EventTarget,value2:string | EventTarget):product[] {
-  let result = arr.filter((el) => el[param as keyof product] >= Number(value1) && el[param as keyof product] <= Number(value2));
-    
-    return result ;
+
+
+export interface FilteringObject  {
+  name: string,
+  brand:string[],
+  category:string[],
+  minStock:number | string,
+  maxStock: number | string,
+  minPrice: number | string,
+  maxPrice:number | string
+}
+export let filteringObject:FilteringObject = {
+    name: '',
+    brand: [],
+    category: [],
+    minStock: 0,
+    maxStock: 200,
+    minPrice: 0,
+    maxPrice:2000
+}
+
+
+export function addListenersToFilters (data:Product[]) {
+  const searchInput = document.querySelector('#search') as HTMLInputElement
+  searchInput.addEventListener('input', (event):void => {
+    const target = event.target as HTMLInputElement;
+    filteringObject.name = target.value
+    let foundData:Product[] = globalFilter(data,filteringObject)
+    draw(foundData)
+  })
+  
+  dualSlider.stockSliderOne.addEventListener('input', (e:Event)=>{
+    const target = e.target as HTMLInputElement;
+    filteringObject.minStock = target.value
+    let foundData:Product[] = globalFilter(data,filteringObject)
+    draw(foundData)
+    dualSlider.slideOne(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueOne,dualSlider.stockGap)
+  })
+  dualSlider.stockSliderTwo.addEventListener('input', (e)=>{
+    const target = e.target as HTMLTextAreaElement;
+    filteringObject.maxStock = target.value
+    let foundData:Product[] = globalFilter(data,filteringObject)
+    draw(foundData)
+    dualSlider.slideTwo(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueTwo,dualSlider.stockGap)
+  })
+  dualSlider.priceSliderOne.addEventListener('input', (e)=>{
+    const target = e.target as HTMLTextAreaElement;
+    filteringObject.minPrice = target.value
+    let foundData:Product[] = globalFilter(data,filteringObject)
+    draw(foundData)
+    dualSlider.slideOne(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueOne,dualSlider.priceGap)
+  })
+  dualSlider.priceSliderTwo.addEventListener('input', (e)=>{
+    const target = e.target as HTMLTextAreaElement;
+    filteringObject.maxPrice = target.value
+    let foundData:Product[] = globalFilter(data,filteringObject)
+    draw(foundData)
+    dualSlider.slideTwo(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueTwo,dualSlider.priceGap)
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  export function globalFilter (data:Product[], obj:FilteringObject) {
+    let result = data.filter( elem => {
+      if (obj.brand.length > 0) return obj.brand.some( tag => elem.brand.includes(tag) )
+      else return elem
+    }).filter((elem) => {
+      if (obj.category.length > 0) return obj.category.some( tag => elem.category.includes(tag) )
+      else return elem
+    }).filter(elem => {
+      if (obj.name.length > 0){
+        let lowerCaseValue = elem.title.toLowerCase()
+          if (lowerCaseValue.includes((obj.name.toLowerCase()))) return elem;
+      } else return elem
+    }).filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
+    console.log(`filter object = `, obj)
+    return result
   }
   
-  export function filterStrings(arr:product[], param:string, value:string) {
-    let searchArr = arr.filter((el) => {
-    let lowerCaseValue = el[param as keyof product] as string
-      if (lowerCaseValue.toLowerCase().includes((value.toLowerCase() as string))) return el;
-    });
-    console.log(searchArr);
-    return searchArr;
-  }
