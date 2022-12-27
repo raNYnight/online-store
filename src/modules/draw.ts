@@ -21,10 +21,12 @@ export interface Product {
     thumbnail:string,
     title:string,
 }
-// type Parametres = Product["brand"]
+
 
 export  function draw(data:Product[]):void{
 const products = document.querySelector('.products__list') as HTMLElement
+const productsFound = document.querySelector('#found_products') as HTMLElement
+productsFound.textContent = data.length.toString()
 products.innerHTML = ''
 for (let i:number = 0; i < data.length; i += 1){
     let productHTML:string = `<div class="products__item">
@@ -53,7 +55,7 @@ console.log(data)
 
 
 export function drawFilterList (data:Product[], param:string, parent:HTMLElement){
-    
+    parent.innerHTML = ''
     let uniqueArr = Array.from(new Set(data.map(item => item[param as keyof Product])))
     console.log(`${param}list = ${uniqueArr}`)
     for (let index = 0; index < uniqueArr.length; index++) {

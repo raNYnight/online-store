@@ -5,8 +5,8 @@ import * as dualSlider from './modules/dual-slider'
 console.log("Hello World!");
 
 const searchInput = document.querySelector('#search') as HTMLInputElement
-const brandList = document.querySelector('#brands') as HTMLElement
-const categoryList = document.querySelector('#category-list') as HTMLElement
+export const brandList = document.querySelector('#brands') as HTMLElement
+export const categoryList = document.querySelector('#category-list') as HTMLElement
 
 
 

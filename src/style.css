@@ -97,6 +97,13 @@ body{
     color: white;
     border: solid 1px #ff3e55;
 }
+.filter__item:first-child{
+    height: 50px;
+}
+.filter__reset{
+    height: 100%;
+    width: 100%;
+}
 .filter__item:nth-last-child(-n+2){
     height: 160px;
 }

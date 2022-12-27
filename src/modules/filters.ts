@@ -1,6 +1,6 @@
-import { draw, Product } from './draw'
+import { draw, Product , drawFilterList} from './draw'
 import * as dualSlider from './dual-slider'
-
+import {brandList, categoryList} from '../index'
 
 
 
@@ -23,9 +23,14 @@ export let filteringObject:FilteringObject = {
     maxPrice:2000
 }
 
+const searchInput = document.querySelector('#search') as HTMLInputElement
+const resetBTN = document.querySelector('.filter__reset') as HTMLButtonElement
 
 export function addListenersToFilters (data:Product[]) {
-  const searchInput = document.querySelector('#search') as HTMLInputElement
+  
+  resetBTN.addEventListener('click', ()=>{
+    resetFilter(data)
+  })
   searchInput.addEventListener('input', (event):void => {
     const target = event.target as HTMLInputElement;
     filteringObject.name = target.value
@@ -61,6 +66,7 @@ export function addListenersToFilters (data:Product[]) {
     draw(foundData)
     dualSlider.slideTwo(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueTwo,dualSlider.priceGap)
   })
+
 }
 
 
@@ -73,7 +79,31 @@ export function addListenersToFilters (data:Product[]) {
 
 
 
+export function resetFilter (data:Product[]){
+    filteringObject = {
+      name: '',
+      brand: [],
+      category: [],
+      minStock: 0,
+      maxStock: 200,
+      minPrice: 0,
+      maxPrice:2000
+  }
+    searchInput.value = ''
+    dualSlider.stockSliderOne.value = '0'
+    dualSlider.stockSliderTwo.value = '200'
+    dualSlider.priceSliderOne.value = '0'
+    dualSlider.priceSliderTwo.value = '2000'
+    dualSlider.slideOne(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueOne,dualSlider.stockGap);
+    dualSlider.slideTwo(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueTwo,dualSlider.stockGap);
+    dualSlider.slideOne(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueOne,dualSlider.priceGap);
+    dualSlider.slideTwo(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueTwo,dualSlider.priceGap);
 
+    draw(data)
+    drawFilterList(data, "brand", brandList)
+    drawFilterList(data, "category", categoryList)
+  
+}
 
 
   export function globalFilter (data:Product[], obj:FilteringObject) {
