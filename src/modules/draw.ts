@@ -1,29 +1,8 @@
-import { type } from "os"
 import { filteringObject } from "./filters"
-import { FilteringObject, globalFilter } from "./filters"
-export interface Data {
-    limit:number,
-    products: Product[],
-    skip: number,
-    total: number
-}
+import { globalFilter } from "./filters"
+import { FilteringObject, Product } from "./interfaces"
 
-export interface Product {
-    brand:string,
-    category:string,
-    description:string,
-    discountPercentage:number,
-    id:number,
-    images:string[]
-    price:number,
-    rating:number,
-    stock:number,
-    thumbnail:string,
-    title:string,
-}
-
-
-export  function draw(data:Product[]):void{
+export function draw(data:Product[]):void{
 const products = document.querySelector('.products__list') as HTMLElement
 const productsFound = document.querySelector('#found_products') as HTMLElement
 productsFound.textContent = data.length.toString()
@@ -47,7 +26,7 @@ for (let i:number = 0; i < data.length; i += 1){
 </div>`
     products.insertAdjacentHTML('beforeend', productHTML)
 }
-
+console.log('draw')
 console.log(data)
 }
 
@@ -57,7 +36,7 @@ console.log(data)
 export function drawFilterList (data:Product[], param:string, parent:HTMLElement){
     parent.innerHTML = ''
     let uniqueArr = Array.from(new Set(data.map(item => item[param as keyof Product])))
-    console.log(`${param}list = ${uniqueArr}`)
+    // console.log(`${param}list = ${uniqueArr}`)
     for (let index = 0; index < uniqueArr.length; index++) {
         const element = uniqueArr[index];
         parent.innerHTML += `<div class="filter__list_item"><input type="checkbox" name="${param}" id="${param}${index}"><label for="${param}${index}">${element}</label></div>`
@@ -74,17 +53,5 @@ export function drawFilterList (data:Product[], param:string, parent:HTMLElement
         let foundData:Product[] = globalFilter(data,filteringObject)
         draw(foundData)
     })
+    console.log('drawFilters')
 }
-
-// let arr = []
-// list.addEventListener('change', (e) => {
-//  const checkbox = event.target;
-//   const checked = checkbox.checked;
-//   const label = checkbox.parentNode;
-//    if (checked) {
-//       arr.push(label.textContent)
-//     } else {
-//       arr.splice(arr.indexOf(label.textContent), 1)
-//     }
-//   console.log(arr)
-// })
