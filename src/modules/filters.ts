@@ -1,18 +1,9 @@
-import { draw, Product , drawFilterList} from './draw'
+import { draw, drawFilterList} from './draw'
 import * as dualSlider from './dual-slider'
 import {brandList, categoryList} from '../index'
+import { FilteringObject, Product } from './interfaces'
 
 
-
-export interface FilteringObject  {
-  name: string,
-  brand:string[],
-  category:string[],
-  minStock:number | string,
-  maxStock: number | string,
-  minPrice: number | string,
-  maxPrice:number | string
-}
 export let filteringObject:FilteringObject = {
     name: '',
     brand: [],
@@ -105,6 +96,7 @@ export function resetFilter (data:Product[]){
   
 }
 
+// filter in searchbox in header
 
   export function globalFilter (data:Product[], obj:FilteringObject) {
     let result = data.filter( elem => {
@@ -119,7 +111,7 @@ export function resetFilter (data:Product[]){
           if (lowerCaseValue.includes((obj.name.toLowerCase()))) return elem;
       } else return elem
     }).filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
-    console.log(`filter object = `, obj)
+    // console.log(`filter object = `, obj)
     return result
   }
   
