@@ -3,13 +3,12 @@ import { draw, drawFilterList } from './modules/draw'
 import {addListenersToFilters} from './modules/filters'
 import * as dualSlider from './modules/dual-slider'
 import { fetchJSON } from './modules/fetch';
-import { router } from './modules/router';
-import { buildPage } from './modules/build-page';
+import { makeFilteringObjectFromHash, router } from './modules/router';
+// import { buildPage } from './modules/build-page';
 
 const searchInput = document.querySelector('#search') as HTMLInputElement
 export const brandList = document.querySelector('#brands') as HTMLElement
 export const categoryList = document.querySelector('#category-list') as HTMLElement
-
 
 const getData = fetchJSON('https://dummyjson.com/products?limit=100');
 
@@ -29,5 +28,4 @@ window.onload = function(){
 
 window.addEventListener("hashchange", router);
 
-buildPage(window.location.hash.slice(1))
-
+makeFilteringObjectFromHash(window.location.hash)

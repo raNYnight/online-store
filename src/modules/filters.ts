@@ -2,16 +2,17 @@ import { draw, drawFilterList} from './draw'
 import * as dualSlider from './dual-slider'
 import {brandList, categoryList} from '../index'
 import { FilteringObject, Product } from './interfaces'
+import { makeHashFromfFilteringObject } from './router'
 
 
-export let filteringObject:FilteringObject = {
-    name: '',
-    brand: [],
-    category: [],
-    minStock: 0,
-    maxStock: 200,
-    minPrice: 0,
-    maxPrice:2000
+export let filteringObject: FilteringObject = {
+  name: '',
+  category: [],
+  brand: [],
+  minStock: 0,
+  maxStock: 200,
+  minPrice: 0,
+  maxPrice: 2000,
 }
 
 const searchInput = document.querySelector('#search') as HTMLInputElement
@@ -22,40 +23,49 @@ export function addListenersToFilters (data:Product[]) {
   resetBTN.addEventListener('click', ()=>{
     resetFilter(data)
   })
+    // search input
   searchInput.addEventListener('input', (event):void => {
     const target = event.target as HTMLInputElement;
     filteringObject.name = target.value
     let foundData:Product[] = globalFilter(data,filteringObject)
     draw(foundData)
+    makeHashFromfFilteringObject();
   })
-  
+  // stock slider min
   dualSlider.stockSliderOne.addEventListener('input', (e:Event)=>{
     const target = e.target as HTMLInputElement;
-    filteringObject.minStock = target.value
+    filteringObject.minStock = target.value;
     let foundData:Product[] = globalFilter(data,filteringObject)
     draw(foundData)
-    dualSlider.slideOne(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueOne,dualSlider.stockGap)
+    dualSlider.slideOne(dualSlider.stockSliderTrack, dualSlider.stockSliderOne, dualSlider.stockSliderTwo, dualSlider.stockValueOne, dualSlider.stockGap)
+    makeHashFromfFilteringObject();
   })
+  // stock slider max
   dualSlider.stockSliderTwo.addEventListener('input', (e)=>{
     const target = e.target as HTMLTextAreaElement;
     filteringObject.maxStock = target.value
     let foundData:Product[] = globalFilter(data,filteringObject)
     draw(foundData)
-    dualSlider.slideTwo(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueTwo,dualSlider.stockGap)
+    dualSlider.slideTwo(dualSlider.stockSliderTrack, dualSlider.stockSliderOne, dualSlider.stockSliderTwo, dualSlider.stockValueTwo, dualSlider.stockGap)
+    makeHashFromfFilteringObject();
   })
+  // price slider min
   dualSlider.priceSliderOne.addEventListener('input', (e)=>{
     const target = e.target as HTMLTextAreaElement;
     filteringObject.minPrice = target.value
     let foundData:Product[] = globalFilter(data,filteringObject)
     draw(foundData)
-    dualSlider.slideOne(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueOne,dualSlider.priceGap)
+    dualSlider.slideOne(dualSlider.priceSliderTrack, dualSlider.priceSliderOne, dualSlider.priceSliderTwo, dualSlider.priceValueOne, dualSlider.priceGap)
+    makeHashFromfFilteringObject();
   })
+  // price slider max
   dualSlider.priceSliderTwo.addEventListener('input', (e)=>{
     const target = e.target as HTMLTextAreaElement;
     filteringObject.maxPrice = target.value
     let foundData:Product[] = globalFilter(data,filteringObject)
     draw(foundData)
-    dualSlider.slideTwo(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueTwo,dualSlider.priceGap)
+    dualSlider.slideTwo(dualSlider.priceSliderTrack, dualSlider.priceSliderOne, dualSlider.priceSliderTwo, dualSlider.priceValueTwo, dualSlider.priceGap)
+    makeHashFromfFilteringObject();
   })
 
 }
@@ -80,20 +90,21 @@ export function resetFilter (data:Product[]){
       minPrice: 0,
       maxPrice:2000
   }
-    searchInput.value = ''
-    dualSlider.stockSliderOne.value = '0'
-    dualSlider.stockSliderTwo.value = '200'
-    dualSlider.priceSliderOne.value = '0'
-    dualSlider.priceSliderTwo.value = '2000'
-    dualSlider.slideOne(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueOne,dualSlider.stockGap);
-    dualSlider.slideTwo(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueTwo,dualSlider.stockGap);
-    dualSlider.slideOne(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueOne,dualSlider.priceGap);
-    dualSlider.slideTwo(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueTwo,dualSlider.priceGap);
+  searchInput.value = '';
+  dualSlider.stockSliderOne.value = '0';
+  dualSlider.stockSliderTwo.value = '200';
+  dualSlider.priceSliderOne.value = '0';
+  dualSlider.priceSliderTwo.value = '2000';
+  dualSlider.slideOne(dualSlider.stockSliderTrack, dualSlider.stockSliderOne, dualSlider.stockSliderTwo, dualSlider.stockValueOne, dualSlider.stockGap);
+  dualSlider.slideTwo(dualSlider.stockSliderTrack,dualSlider.stockSliderOne,dualSlider.stockSliderTwo,dualSlider.stockValueTwo,dualSlider.stockGap);
+  dualSlider.slideOne(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueOne,dualSlider.priceGap);
+  dualSlider.slideTwo(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueTwo,dualSlider.priceGap);
 
-    draw(data)
-    drawFilterList(data, "brand", brandList)
-    drawFilterList(data, "category", categoryList)
-  
+  draw(data);
+  drawFilterList(data, "brand", brandList);
+  drawFilterList(data, "category", categoryList);
+
+  window.location.hash = '';
 }
 
 // filter in searchbox in header
@@ -111,7 +122,10 @@ export function resetFilter (data:Product[]){
           if (lowerCaseValue.includes((obj.name.toLowerCase()))) return elem;
       } else return elem
     }).filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
-    // console.log(`filter object = `, obj)
+    console.log(`filter object = `, obj)
     return result
   }
   
+export function newFilteringByObject() {
+  
+}

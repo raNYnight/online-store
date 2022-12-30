@@ -19,12 +19,16 @@ export interface Data {
     total: number
 }
 
-export interface FilteringObject  {
+export interface FilteringObject {
     name: string,
-    brand:string[],
-    category:string[],
-    minStock:number | string,
+    brand: string[],
+    category: string[],
+    minStock: number | string,
     maxStock: number | string,
     minPrice: number | string,
-    maxPrice:number | string
+    maxPrice: number | string
+}
+
+export interface Fill {
+    [key: string]: string
 }

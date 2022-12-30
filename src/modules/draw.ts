@@ -1,6 +1,7 @@
 import { filteringObject } from "./filters"
 import { globalFilter } from "./filters"
 import { FilteringObject, Product } from "./interfaces"
+import { makeHashFromfFilteringObject } from "./router"
 
 export function draw(data:Product[]):void{
 const products = document.querySelector('.products__list') as HTMLElement
@@ -26,8 +27,8 @@ for (let i:number = 0; i < data.length; i += 1){
 </div>`
     products.insertAdjacentHTML('beforeend', productHTML)
 }
-console.log('draw')
-console.log(data)
+// console.log('draw')
+// console.log(data)
 }
 
 
@@ -50,8 +51,9 @@ export function drawFilterList (data:Product[], param:string, parent:HTMLElement
         }else{
             paramArr.splice(paramArr.indexOf(checkbox.parentNode?.textContent as string), 1)
         }
-        let foundData:Product[] = globalFilter(data,filteringObject)
+        let foundData: Product[] = globalFilter(data, filteringObject)
+        makeHashFromfFilteringObject()
         draw(foundData)
     })
-    console.log('drawFilters')
+    // console.log('drawFilters')
 }
