@@ -71,16 +71,8 @@ export function addListenersToFilters (data:Product[]) {
 }
 
 
-
-
-
-
-
-
-
-
-
 export function resetFilter (data:Product[]){
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>
     filteringObject = {
       name: '',
       brand: [],
@@ -101,8 +93,9 @@ export function resetFilter (data:Product[]){
   dualSlider.slideTwo(dualSlider.priceSliderTrack,dualSlider.priceSliderOne,dualSlider.priceSliderTwo,dualSlider.priceValueTwo,dualSlider.priceGap);
 
   draw(data);
-  drawFilterList(data, "brand", brandList);
-  drawFilterList(data, "category", categoryList);
+  // drawFilterList(data, "brand", brandList);
+  // drawFilterList(data, "category", categoryList);
+  checkboxes.forEach((el:HTMLInputElement)=>el.checked = false)
 
   window.location.hash = '';
 }
