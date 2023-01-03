@@ -4,12 +4,14 @@ import { FilteringObject, Product } from "./interfaces"
 import { makeHashFromfFilteringObject } from "./router"
 
 export function draw(data:Product[]):void{
+    console.log('drawing....')
+    console.log(data)
 const products = document.querySelector('.products__list') as HTMLElement
 const productsFound = document.querySelector('#found_products') as HTMLElement
 productsFound.textContent = data.length.toString()
 products.innerHTML = ''
 for (let i:number = 0; i < data.length; i += 1){
-    let productHTML:string = `<div class="products__item">
+    let productHTML:string = `<div class="products__item" title="${data[i].description}" id = "product${data[i].id}">
     <span class="products__item_header">${data[i].title}</span>
     <img src="${data[i].thumbnail}" alt="" class="products__item_img" >
     <div class="products__item_info">

@@ -103,18 +103,27 @@ export function resetFilter (data:Product[]){
 // filter in searchbox in header
 
   export function globalFilter (data:Product[], obj:FilteringObject) {
-    let result = data.filter( elem => {
+    console.log('filtering....')
+    let result = data
+    .filter( elem => {
       if (obj.brand.length > 0) return obj.brand.some( tag => elem.brand.includes(tag) )
       else return elem
-    }).filter((elem) => {
+    })
+    .filter((elem) => {
       if (obj.category.length > 0) return obj.category.some( tag => elem.category.includes(tag) )
       else return elem
-    }).filter(elem => {
+    })
+    .filter(elem => {
       if (obj.name.length > 0){
-        let lowerCaseValue = elem.title.toLowerCase()
-          if (lowerCaseValue.includes((obj.name.toLowerCase()))) return elem;
+        let filterSearch = obj.name.toLowerCase();
+        let isTitleIncludes = elem.title.toLowerCase().includes(filterSearch)
+        let isCategoryIncludes = elem.category.toLowerCase().includes(filterSearch)
+        let isBrandIncludes = elem.brand.toLowerCase().includes(filterSearch)
+        let isDescriptionIncludes = elem.description.toLowerCase().includes(filterSearch)
+          if (isTitleIncludes || isCategoryIncludes || isBrandIncludes || isDescriptionIncludes) return elem;
       } else return elem
-    }).filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
+    })
+    .filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
     console.log(`filter object = `, obj)
     return result
   }
