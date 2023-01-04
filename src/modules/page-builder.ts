@@ -4,7 +4,6 @@ import { FilterComponent } from '../components/filter-component'
 import { ProductsComponent } from '../components/products-component'
 import { SortComponent } from '../components/sort-div-component'
 import { myJson } from '..'
-import { Product } from './interfaces'
 import { makeFilteringObjectFromHash, myJsonWithFilters } from './filtering'
 import { CartComponent } from '../components/cart-component'
 

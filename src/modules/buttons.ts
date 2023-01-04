@@ -1,5 +1,6 @@
+import { myJson } from ".."
 import { changeFilteringObject, makeHashFromfFilteringObject } from "./filtering"
-import { FilteringObject } from "./interfaces"
+import { FilteringObject, Product } from "./interfaces"
 import { build } from "./page-builder"
 
 export let filteringObject: FilteringObject = {
@@ -40,10 +41,18 @@ export function filterClick(event: any) {
   window.location.hash = (makeHashFromfFilteringObject(filteringObject))
 }
 
-export function itemDetailsClick(event: any) { 
+export function itemDetailsClick(event: MouseEvent) { 
   console.log('func: itemDetailsClick')
-  console.log(event.target.parentNode.parentNode.parentNode)
-  alert(event.target.parentNode.parentNode.parentNode.querySelector('.products__item_header').innerText)
+  const target = event.target as HTMLElement;
+  const prod = target.parentNode?.parentNode as HTMLElement;
+  const id = + prod.id.replace('product-', '')
+  const item = myJson[id - 1]
+  let res =''
+  for (let i in item) {
+    res += (`${i}: ${item[i as keyof Product]} \n`)
+  }
+  alert(res)
+  // alert(event.target.parentNode.parentNode.parentNode.querySelector('.products__item_header').innerText)
 }
 
 export function addToCartClick(event: any) {
