@@ -102,10 +102,11 @@ export function makeFilteringObjectFromHash(hash: string) {
     minPrice: 0,
     maxPrice: 2000,
   }
-  let arr = hash.slice(8).split('&');
+  let arr = decodeURI(hash).slice(8).split('&');
+  console.log('!', arr)
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].includes('name')) {
-      newFilteringObject.name = arr[i].replace('name=', '').replace('%20', ' ');
+      newFilteringObject.name = arr[i].replace('name=', '');
     }
     if (arr[i].includes('brand')) {
       newFilteringObject.brand = arr[i].replace('brand=', '').split(',');
@@ -126,6 +127,7 @@ export function makeFilteringObjectFromHash(hash: string) {
       newFilteringObject.maxPrice = +arr[i].replace('maxPrice=', '');
     }
   }
+  console.log(newFilteringObject)
   return(newFilteringObject)
 }
 
