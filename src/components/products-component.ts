@@ -1,6 +1,6 @@
 import { myJson } from "..";
 import { Product } from "../modules/interfaces";
-import { addToCartClick, itemDetailsClick } from "../modules/buttons";
+import { addRemoveToCartClick, itemDetailsClick } from "../modules/buttons";
 import { Component } from "./components";
 
 export class ProductsComponent extends Component {
@@ -63,7 +63,7 @@ export class ProductsComponent extends Component {
       const btnAddToCart = document.createElement('button');
       btnAddToCart.className = 'item__add-to-card';
       btnAddToCart.innerText = 'Add to card';
-      btnAddToCart.addEventListener('click', addToCartClick);
+      btnAddToCart.addEventListener('click', addRemoveToCartClick);
 
       const btnInfo = document.createElement('button');
       btnInfo.className = 'item__info';

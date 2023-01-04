@@ -28,15 +28,16 @@ export function resetFilteringObject() {
   build('main')
 }
 
-export function filterClick(event: any) { 
+export function filterClick(event: Event) { 
+  const target = event.target as HTMLInputElement;
   console.log('func: filterClick')
-  if (event.target.id.includes('slider')) {
-    changeFilteringObject(event.target.id, event.target.value)
-  } if (event.target.id.includes('search')) {
-    changeFilteringObject(event.target.id, event.target.value)
-  } else if (event.target.tagName === 'BUTTON') {
+  if (target.id.includes('slider')) {
+    changeFilteringObject(target.id, target.value)
+  } if (target.id.includes('search')) {
+    changeFilteringObject(target.id, target.value)
+  } else if (target.tagName === 'BUTTON') {
   } else {
-    changeFilteringObject(event.target.name, event.target.id)
+    changeFilteringObject(target.name, target.id)
   }
   window.location.hash = (makeHashFromfFilteringObject(filteringObject))
 }
@@ -55,10 +56,43 @@ export function itemDetailsClick(event: MouseEvent) {
   // alert(event.target.parentNode.parentNode.parentNode.querySelector('.products__item_header').innerText)
 }
 
-export function addToCartClick(event: any) {
+
+// Обновляем данные корзины(сумма покупок и кол-во) в localStorage и на странице
+
+export function addRemoveToCartClick(event: Event) {
+  const target = event.target as HTMLInputElement;
+  let item = target.parentNode!.parentNode!.querySelector('.products__item_header') as HTMLElement
+  let itemPrice = target.parentNode!.parentNode!.querySelector('.item__price')!.textContent!.split(': ')[1]
+  let basketCount = document.querySelector(".header__basket_items-count") as HTMLElement
+  let basketSumHTML = document.querySelector('.header__total-sum') as HTMLElement
+  localStorage.price = basketSumHTML.textContent
+  switch(target.textContent){
+    case 'Add to card':
+      target.textContent = 'Remove from card'
+      basketCount.textContent = (parseInt(basketCount.textContent!) + 1).toString();
+      localStorage.price = parseInt(itemPrice) + parseInt(localStorage.price) 
+      basketSumHTML.textContent = `${localStorage.price}$`
+      if (!localStorage.cart){
+        localStorage.cart = item.innerText
+      } else {
+        localStorage.cart += `,${item.innerText}`
+      }
+      break
+    case 'Remove from card':
+      target.textContent = 'Add to card'
+      basketCount.textContent = (parseInt(basketCount.textContent!) - 1).toString();
+      localStorage.price = parseInt(localStorage.price) - parseInt(itemPrice) 
+      basketSumHTML.textContent = `${localStorage.price}$`
+
+      let lsArr:string[] = localStorage.cart.split(',')
+      lsArr.splice(lsArr.indexOf(item.innerText), 1)
+      localStorage.cart = lsArr.join(',')
+      break
+  }
+
   console.log('func: addToCartClick')
-  let item = event.target.parentNode.parentNode.parentNode.querySelector('.products__item_header').innerText
-  localStorage.cart = item
+  
+  console.log('added to cart: ',item.textContent, itemPrice)
 }
 
 export function copyFilteringObject() {

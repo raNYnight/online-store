@@ -139,19 +139,29 @@ export class FilterComponent extends Component {
     const priceSliderTrack = document.createElement('div');
     priceSliderTrack.className = 'price-slider__track';
     const priceSliderMin = document.createElement('input');
+    const priceSliderMax = document.createElement('input');
     priceSliderMin.type = 'range';
     priceSliderMin.min = '0';
     priceSliderMin.max = '2000';
     priceSliderMin.value = '0';
     priceSliderMin.id = 'price-slider-min';
     priceSliderMin.addEventListener('click', filterClick);
-    const priceSliderMax = document.createElement('input');
+    priceSliderMin.addEventListener('input', (e:Event)=>{
+      const target = e.target as HTMLInputElement;
+      this.slideOne(priceSliderMin, priceSliderMax,priceRangeMin, 10)
+    })
+
     priceSliderMax.type = 'range';
     priceSliderMax.min = '0';
     priceSliderMax.max = '2000';
     priceSliderMax.value = '2000';
     priceSliderMax.id = 'price-slider-max';
     priceSliderMax.addEventListener('click', filterClick);
+    priceSliderMax.addEventListener('input', (e:Event)=>{
+      const target = e.target as HTMLInputElement;
+      this.slideTwo(priceSliderMin, priceSliderMax,priceRangeMin, 10)
+    })
+
     dualSliderPriceInput.append(priceSliderTrack, priceSliderMin, priceSliderMax)
 
     dualSliderPrice.append(dualSliderPriceValues, dualSliderPriceInput)
@@ -186,20 +196,34 @@ export class FilterComponent extends Component {
     dualSliderInputStock.className = 'dual-slider__input';
     const stockSliderTrack = document.createElement('div');
     stockSliderTrack.className = 'stock-slider__track';
+
     const stockSliderMin = document.createElement('input');
+    const stockSliderMax = document.createElement('input');
+
     stockSliderMin.type = 'range';
     stockSliderMin.min = '0';
     stockSliderMin.max = '200';
     stockSliderMin.value = '0';
     stockSliderMin.id = 'stock-slider-min';
     stockSliderMin.addEventListener('click', filterClick);
-    const stockSliderMax = document.createElement('input');
+    stockSliderMin.addEventListener('input', (e:Event)=>{
+      const target = e.target as HTMLInputElement;
+      this.slideOne(stockSliderMin, stockSliderMax,stockRangeMin, 1)
+    })
+
+    
     stockSliderMax.type = 'range';
     stockSliderMax.min = '0';
     stockSliderMax.max = '200';
     stockSliderMax.value = '200';
     stockSliderMax.id = 'stock-slider-max';
     stockSliderMax.addEventListener('click', filterClick);
+    stockSliderMax.addEventListener('input', (e:Event)=>{
+      const target = e.target as HTMLInputElement;
+      this.slideTwo(stockSliderMin, stockSliderMax,stockRangeMax, 1)
+    })
+
+
     dualSliderInputStock.append(stockSliderTrack, stockSliderMin, stockSliderMax)
 
     dualSliderStock.append(dualSliderValuesStock, dualSliderInputStock)
@@ -212,6 +236,21 @@ export class FilterComponent extends Component {
   renderObj() {
     this.renderPageAside();
     return this.container;
+  }
+
+  slideOne(range1:HTMLInputElement,range2:HTMLInputElement,valueBox:HTMLElement, gap:number){
+    if(parseInt(range2.value) - parseInt(range1.value) <= gap){
+        console.log((parseInt(range2.value) - gap).toString())
+        range1.value = (parseInt(range2.value) - gap).toString();
+    }
+    valueBox.textContent = range1.value;
+}
+
+  slideTwo(range1:HTMLInputElement,range2:HTMLInputElement,valueBox:HTMLElement,gap:number){
+    if(parseInt(range2.value) - parseInt(range1.value) <= gap){
+        range2.value = (parseInt(range1.value) + gap).toString();
+    }
+    valueBox.textContent = range2.value;
   }
 
 }

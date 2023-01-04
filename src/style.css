@@ -324,6 +324,7 @@ input[type="range"] {
   top: 0;
   bottom: 0;
   border-radius: 5px;
+  background-color: #fff;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {

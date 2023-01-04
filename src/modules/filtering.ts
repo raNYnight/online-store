@@ -58,6 +58,11 @@ export function myJsonWithFilters(data: Product[], obj: FilteringObject) {
 export function makeHashFromfFilteringObject(filteringObject: FilteringObject) {
   console.log('func: makeHashFromfFilteringObject')
   let arr = [];
+  const priceRangeMin = document.querySelector('#price-range-min') as HTMLInputElement
+  const priceRangeMax = document.querySelector('#price-range-max') as HTMLInputElement
+  const stockRangeMin = document.querySelector('#stock-range-min') as HTMLInputElement
+  const stockRangeMax = document.querySelector('#stock-range-max') as HTMLInputElement
+
   if (filteringObject.name !== '') {
     arr.push(`name=${filteringObject.name}`)
   } 
@@ -69,21 +74,21 @@ export function makeHashFromfFilteringObject(filteringObject: FilteringObject) {
   } 
   if (filteringObject.minPrice !== 0) {
     arr.push(`minPrice=${filteringObject.minPrice}`);
-    (document.querySelector('#price-range-min') as HTMLElement).innerHTML = filteringObject.minPrice.toString();
+    priceRangeMin.innerHTML = filteringObject.minPrice.toString();
   } 
   if (filteringObject.maxPrice !== 2000) {
     arr.push(`maxPrice=${filteringObject.maxPrice}`);
-    (document.querySelector('#price-range-max') as HTMLElement).innerHTML = filteringObject.maxPrice.toString();
+    priceRangeMax.innerHTML = filteringObject.maxPrice.toString();
 
   } 
   if (filteringObject.minStock !== 0) {
     arr.push(`minStock=${filteringObject.minStock}`);
-    (document.querySelector('#stock-range-min') as HTMLElement).innerHTML = filteringObject.minStock.toString();
+    stockRangeMin.innerHTML = filteringObject.minStock.toString();
 
   } 
   if (filteringObject.maxStock !== 200) {
     arr.push(`maxStock=${filteringObject.maxStock}`);
-    (document.querySelector('#stock-range-max') as HTMLElement).innerHTML = filteringObject.maxStock.toString();
+    stockRangeMax.innerHTML = filteringObject.maxStock.toString();
 
   }
   let newHash = arr.join('&');
