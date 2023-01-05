@@ -10,7 +10,7 @@ export class ErrorComponent extends Component {
   renderPageError() {
     const error = document.createElement('span');
     error.innerText = 'there is no such page'
-   
+
     this.container.append(error);
   }
 

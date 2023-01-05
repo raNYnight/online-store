@@ -25,3 +25,8 @@ export interface FilteringObject {
 export interface Fill {
   [key: string]: string
 }
+export interface CartItem {
+  id: number,
+  price: number,
+  count: number,
+}

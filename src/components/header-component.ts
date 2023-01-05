@@ -1,30 +1,39 @@
 import { myJson } from "..";
-import { Product } from "../modules/interfaces";
+import { CartItem, Product } from "../modules/interfaces";
 import { Component } from "./components";
 
 export class HeaderComponent extends Component {
-  constructor(tagName: string = 'header', className: string = 'header container',obj: Product[] = myJson) {
+  constructor(tagName: string = 'header', className: string = 'header container', obj: Product[] = myJson) {
     super(tagName, className, obj)
   }
 
   renderPageHeader() {
+    let cartArr: CartItem[]
+    let cartTotal = 0
+    let cartItems = 0
+    if (localStorage.cart) {
+      cartArr = JSON.parse(localStorage.cart);
+      cartTotal = cartArr.reduce(function (acc, el: CartItem) { return acc + el.price }, 0);
+      cartItems = cartArr.reduce(function (acc, el: CartItem) { return acc + el.count }, 0);
+    }
+
     const logoImg = document.createElement('img');
     logoImg.src = 'https://i.ibb.co/0DjfXtT/online-shop-high-resolution-logo-color-on-transparent-background.png';
     logoImg.alt = 'logo';
     logoImg.className = 'header__logo';
     logoImg.onclick = function () {
       window.location.href = 'http://localhost:8080/#main'
-    } 
+    }
 
     const cartDiv = document.createElement('div');
     cartDiv.className = 'header__basket';
     cartDiv.onclick = function () {
       window.location.href = 'http://localhost:8080/#cart'
-    } 
+    }
 
     const cartCount = document.createElement('div');
     cartCount.className = 'header__basket_items-count';
-    cartCount.innerText = '0';
+    cartCount.innerText = `${cartItems}`;
 
     const headerTotal = document.createElement('div');
     headerTotal.className = 'header__total';
@@ -34,7 +43,7 @@ export class HeaderComponent extends Component {
 
     const headerTotalSum = document.createElement('span');
     headerTotalSum.className = 'header__total-sum'
-    headerTotalSum.innerText = '0$'
+    headerTotalSum.innerText = `${cartTotal}$`
 
     cartDiv.append(cartCount);
     headerTotal.append(headerTotalSpan, headerTotalSum)

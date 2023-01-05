@@ -2,6 +2,7 @@ import { myJson } from "..";
 import { Product } from "../modules/interfaces";
 import { addRemoveToCartClick, itemDetailsClick } from "../modules/buttons";
 import { Component } from "./components";
+import { isIdInLocalStorage } from "../modules/cart";
 
 export class ProductsComponent extends Component {
   constructor(tagName: string = 'section', className: string = 'products', obj: Product[] = myJson) {
@@ -19,7 +20,7 @@ export class ProductsComponent extends Component {
       item.id = `product-${data[i].id}`
       item.style.backgroundImage = `url(${data[i].thumbnail})`
       item.style.backgroundSize = 'cover'
-        // `url(${data[i].thumbnail}) 0% 0% / cover;`
+      // `url(${data[i].thumbnail}) 0% 0% / cover;`
 
       const itemHeader = document.createElement('span');
       itemHeader.className = 'products__item_header';
@@ -61,8 +62,15 @@ export class ProductsComponent extends Component {
       itemButtons.className = 'products__item_buttons';
 
       const btnAddToCart = document.createElement('button');
-      btnAddToCart.className = 'item__add-to-card';
-      btnAddToCart.innerText = 'Add to card';
+      btnAddToCart.className = 'item__add-to-card btn';
+
+      if (!isIdInLocalStorage(data[i].id)) {
+        btnAddToCart.innerText = 'Add to card';
+      } else {
+        btnAddToCart.innerText = 'Remove from card';
+        btnAddToCart.classList.add('active')
+        item.classList.add('active')
+      }
       btnAddToCart.addEventListener('click', addRemoveToCartClick);
 
       const btnInfo = document.createElement('button');
@@ -71,7 +79,7 @@ export class ProductsComponent extends Component {
       btnInfo.addEventListener('click', itemDetailsClick);
 
       itemButtons.append(btnAddToCart, btnInfo);
-      itemInfo.append(itemCategory, itemBrand, itemPrice, ); //itemDiscount, itemRating, itemStock);
+      itemInfo.append(itemCategory, itemBrand, itemPrice,); //itemDiscount, itemRating, itemStock);
 
       item.append(itemHeader, itemInfo, itemButtons)
       this.container.append(item);

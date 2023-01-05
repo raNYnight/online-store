@@ -10,7 +10,7 @@ export class CartComponent extends Component {
   renderPageCart() {
     const cart = document.createElement('span');
     cart.innerText = 'cart placeholder'
-   
+
     this.container.append(cart);
   }
 

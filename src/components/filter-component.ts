@@ -7,7 +7,7 @@ export class FilterComponent extends Component {
   constructor(tagName: string = 'aside', className: string = 'filter', obj: Product[] = myJson) {
     super(tagName, className, obj)
   }
-  
+
   renderPageAside() {
     /* * * * * * * * * */
     /*  reset+copy btn */
@@ -23,7 +23,7 @@ export class FilterComponent extends Component {
     filterItemBtnCopy.className = 'filter__copy';
     filterItemBtnCopy.id = 'filter__copy';
     filterItemBtnCopy.innerText = 'Copy filters';
-    
+
     filterItemBtnCopy.addEventListener('click', copyFilteringObject);
     filterItemBtns.append(filterItemBtnReset, filterItemBtnCopy)
     /* * * * * * * * * */
@@ -47,7 +47,7 @@ export class FilterComponent extends Component {
     const filterItemCategory = document.createElement('div');
     filterItemCategory.className = 'filter__item categories';
 
-    const filterTitleCategory= document.createElement('h2');
+    const filterTitleCategory = document.createElement('h2');
     filterTitleCategory.className = 'filter__title';
     filterTitleCategory.innerText = 'Category';
 
@@ -55,7 +55,6 @@ export class FilterComponent extends Component {
     filterListCategory.className = 'filter__list';
     filterListCategory.id = 'category-list';
 
-    ///////////////// add listeners
     for (let i = 0; i < categoriesArr.length; i++) {
       const li = document.createElement('div');
       li.className = 'filter__list_item';
@@ -68,11 +67,10 @@ export class FilterComponent extends Component {
       const label = document.createElement('label');
       label.innerText = `${categoriesArr[i]}`;
       label.setAttribute('for', `${categoriesArr[i]}`)
-      
+
       li.append(check, label)
       filterListCategory.append(li)
     }
-    /////////////////
 
     filterItemCategory.append(filterTitleCategory, filterListCategory);
     /* * * * * * * * * */
@@ -89,7 +87,6 @@ export class FilterComponent extends Component {
     filterListBrand.className = 'filter__list';
     filterListBrand.id = 'brands';
 
-    ///////////////// add listeners
     for (let i = 0; i < brandsArr.length; i++) {
       const li = document.createElement('div');
       li.className = 'filter__list_item';
@@ -106,7 +103,6 @@ export class FilterComponent extends Component {
       li.addEventListener('click', filterClick);
       filterListBrand.append(li)
     }
-    /////////////////
 
     filterItemBrand.append(filterTitleBrand, filterListBrand);
     /* * * * * * * * * */
@@ -132,7 +128,7 @@ export class FilterComponent extends Component {
     const priceRangeMax = document.createElement('span');
     priceRangeMax.id = 'price-range-max';
     priceRangeMax.innerText = '2000'
-    dualSliderPriceValues.append(priceRangeMin,priceRangeDash,priceRangeMax)
+    dualSliderPriceValues.append(priceRangeMin, priceRangeDash, priceRangeMax)
 
     const dualSliderPriceInput = document.createElement('div');
     dualSliderPriceInput.className = 'dual-slider__input';
@@ -146,9 +142,9 @@ export class FilterComponent extends Component {
     priceSliderMin.value = '0';
     priceSliderMin.id = 'price-slider-min';
     priceSliderMin.addEventListener('click', filterClick);
-    priceSliderMin.addEventListener('input', (e:Event)=>{
+    priceSliderMin.addEventListener('input', (e: Event) => {
       const target = e.target as HTMLInputElement;
-      this.slideOne(priceSliderMin, priceSliderMax,priceRangeMin, 10)
+      this.slideOne(priceSliderMin, priceSliderMax, priceRangeMin, 10)
     })
 
     priceSliderMax.type = 'range';
@@ -157,9 +153,9 @@ export class FilterComponent extends Component {
     priceSliderMax.value = '2000';
     priceSliderMax.id = 'price-slider-max';
     priceSliderMax.addEventListener('click', filterClick);
-    priceSliderMax.addEventListener('input', (e:Event)=>{
+    priceSliderMax.addEventListener('input', (e: Event) => {
       const target = e.target as HTMLInputElement;
-      this.slideTwo(priceSliderMin, priceSliderMax,priceRangeMin, 10)
+      this.slideTwo(priceSliderMin, priceSliderMax, priceRangeMin, 10)
     })
 
     dualSliderPriceInput.append(priceSliderTrack, priceSliderMin, priceSliderMax)
@@ -190,7 +186,7 @@ export class FilterComponent extends Component {
     const stockRangeMax = document.createElement('span');
     stockRangeMax.id = 'stock-range-max';
     stockRangeMax.innerText = '200'
-    dualSliderValuesStock.append(stockRangeMin,stockRangeDash,stockRangeMax)
+    dualSliderValuesStock.append(stockRangeMin, stockRangeDash, stockRangeMax)
 
     const dualSliderInputStock = document.createElement('div');
     dualSliderInputStock.className = 'dual-slider__input';
@@ -206,21 +202,21 @@ export class FilterComponent extends Component {
     stockSliderMin.value = '0';
     stockSliderMin.id = 'stock-slider-min';
     stockSliderMin.addEventListener('click', filterClick);
-    stockSliderMin.addEventListener('input', (e:Event)=>{
+    stockSliderMin.addEventListener('input', (e: Event) => {
       const target = e.target as HTMLInputElement;
-      this.slideOne(stockSliderMin, stockSliderMax,stockRangeMin, 1)
+      this.slideOne(stockSliderMin, stockSliderMax, stockRangeMin, 1)
     })
 
-    
+
     stockSliderMax.type = 'range';
     stockSliderMax.min = '0';
     stockSliderMax.max = '200';
     stockSliderMax.value = '200';
     stockSliderMax.id = 'stock-slider-max';
     stockSliderMax.addEventListener('click', filterClick);
-    stockSliderMax.addEventListener('input', (e:Event)=>{
+    stockSliderMax.addEventListener('input', (e: Event) => {
       const target = e.target as HTMLInputElement;
-      this.slideTwo(stockSliderMin, stockSliderMax,stockRangeMax, 1)
+      this.slideTwo(stockSliderMin, stockSliderMax, stockRangeMax, 1)
     })
 
 
@@ -230,7 +226,7 @@ export class FilterComponent extends Component {
 
     filterItemStock.append(filterTitleStock, dualSliderStock);
 
-    this.container.append(filterItemBtns,filterItemCategory, filterItemBrand, filterItemPrice, filterItemStock);
+    this.container.append(filterItemBtns, filterItemCategory, filterItemBrand, filterItemPrice, filterItemStock);
   }
 
   renderObj() {
@@ -238,17 +234,17 @@ export class FilterComponent extends Component {
     return this.container;
   }
 
-  slideOne(range1:HTMLInputElement,range2:HTMLInputElement,valueBox:HTMLElement, gap:number){
-    if(parseInt(range2.value) - parseInt(range1.value) <= gap){
-        console.log((parseInt(range2.value) - gap).toString())
-        range1.value = (parseInt(range2.value) - gap).toString();
+  slideOne(range1: HTMLInputElement, range2: HTMLInputElement, valueBox: HTMLElement, gap: number) {
+    if (parseInt(range2.value) - parseInt(range1.value) <= gap) {
+      console.log((parseInt(range2.value) - gap).toString())
+      range1.value = (parseInt(range2.value) - gap).toString();
     }
     valueBox.textContent = range1.value;
-}
+  }
 
-  slideTwo(range1:HTMLInputElement,range2:HTMLInputElement,valueBox:HTMLElement,gap:number){
-    if(parseInt(range2.value) - parseInt(range1.value) <= gap){
-        range2.value = (parseInt(range1.value) + gap).toString();
+  slideTwo(range1: HTMLInputElement, range2: HTMLInputElement, valueBox: HTMLElement, gap: number) {
+    if (parseInt(range2.value) - parseInt(range1.value) <= gap) {
+      range2.value = (parseInt(range1.value) + gap).toString();
     }
     valueBox.textContent = range2.value;
   }

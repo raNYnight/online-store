@@ -33,25 +33,25 @@ export function changeFilteringObject(prop: string, value: string) { // from fil
 export function myJsonWithFilters(data: Product[], obj: FilteringObject) {
   console.log('func: myJsonWithFilters')
   let result = data
-  .filter( elem => {
-    if (obj.brand.length > 0) return obj.brand.some( tag => elem.brand.includes(tag) )
-    else return elem
-  })
-  .filter((elem) => {
-    if (obj.category.length > 0) return obj.category.some( tag => elem.category.includes(tag) )
-    else return elem
-  })
-  .filter(elem => {
-    if (obj.name.length > 0){
-      let filterSearch = obj.name.toLowerCase();
-      let isTitleIncludes = elem.title.toLowerCase().includes(filterSearch)
-      let isCategoryIncludes = elem.category.toLowerCase().includes(filterSearch)
-      let isBrandIncludes = elem.brand.toLowerCase().includes(filterSearch)
-      let isDescriptionIncludes = elem.description.toLowerCase().includes(filterSearch)
+    .filter(elem => {
+      if (obj.brand.length > 0) return obj.brand.some(tag => elem.brand.includes(tag))
+      else return elem
+    })
+    .filter((elem) => {
+      if (obj.category.length > 0) return obj.category.some(tag => elem.category.includes(tag))
+      else return elem
+    })
+    .filter(elem => {
+      if (obj.name.length > 0) {
+        let filterSearch = obj.name.toLowerCase();
+        let isTitleIncludes = elem.title.toLowerCase().includes(filterSearch)
+        let isCategoryIncludes = elem.category.toLowerCase().includes(filterSearch)
+        let isBrandIncludes = elem.brand.toLowerCase().includes(filterSearch)
+        let isDescriptionIncludes = elem.description.toLowerCase().includes(filterSearch)
         if (isTitleIncludes || isCategoryIncludes || isBrandIncludes || isDescriptionIncludes) return elem;
-    } else return elem
-  })
-  .filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
+      } else return elem
+    })
+    .filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
   return result
 }
 
@@ -65,35 +65,31 @@ export function makeHashFromfFilteringObject(filteringObject: FilteringObject) {
 
   if (filteringObject.name !== '') {
     arr.push(`name=${filteringObject.name}`)
-  } 
+  }
   if (filteringObject.category.length !== 0) {
     arr.push(`category=${filteringObject.category}`)
-  } 
+  }
   if (filteringObject.brand.length !== 0) {
     arr.push(`brand=${filteringObject.brand}`)
-  } 
+  }
   if (filteringObject.minPrice !== 0) {
     arr.push(`minPrice=${filteringObject.minPrice}`);
     priceRangeMin.innerHTML = filteringObject.minPrice.toString();
-  } 
+  }
   if (filteringObject.maxPrice !== 2000) {
     arr.push(`maxPrice=${filteringObject.maxPrice}`);
     priceRangeMax.innerHTML = filteringObject.maxPrice.toString();
-
-  } 
+  }
   if (filteringObject.minStock !== 0) {
     arr.push(`minStock=${filteringObject.minStock}`);
     stockRangeMin.innerHTML = filteringObject.minStock.toString();
-
-  } 
+  }
   if (filteringObject.maxStock !== 200) {
     arr.push(`maxStock=${filteringObject.maxStock}`);
     stockRangeMax.innerHTML = filteringObject.maxStock.toString();
-
   }
   let newHash = arr.join('&');
-   
-  return((newHash === '') ? 'main' : 'filter/' + newHash)
+  return ((newHash === '') ? 'main' : 'filter/' + newHash)
 }
 
 export function makeFilteringObjectFromHash(hash: string) {
@@ -133,9 +129,9 @@ export function makeFilteringObjectFromHash(hash: string) {
     }
   }
   console.log(newFilteringObject)
-  return(newFilteringObject)
+  return (newFilteringObject)
 }
 
-export function drawFilteringObjectOnPage(filteringObject: FilteringObject) {
-  
-}
+// export function drawFilteringObjectOnPage(filteringObject: FilteringObject) {
+
+// }
