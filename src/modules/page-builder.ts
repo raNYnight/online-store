@@ -24,8 +24,8 @@ export function build(page: string) {
   } else if (page === 'cart') {
     console.log('cart page')
     document.body.innerHTML = '';
-    document.body.prepend(new HeaderComponent().render())
-    document.body.prepend(new CartComponent().render())
+    document.body.append(new HeaderComponent().render())
+    document.body.append(new CartComponent().render())
     document.body.append(new FooterComponent().render())
 
   } else if (page.startsWith('item/')) {

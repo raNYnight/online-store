@@ -11,7 +11,6 @@ export class ProductsComponent extends Component {
 
   renderProducts(obj: Product[]) {
     console.log(`func: renderProducts`)
-    console.log(obj.length.toString())
     let data = obj;
 
     for (let i: number = 0; i < data.length; i += 1) {
@@ -90,6 +89,7 @@ export class ProductsComponent extends Component {
     console.log(`func: renderObj`)
     this.renderProducts(obj);
     return this.container;
+    
   }
 
 }

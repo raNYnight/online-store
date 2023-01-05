@@ -13,7 +13,7 @@ export class HeaderComponent extends Component {
     let cartItems = 0
     if (localStorage.cart) {
       cartArr = JSON.parse(localStorage.cart);
-      cartTotal = cartArr.reduce(function (acc, el: CartItem) { return acc + el.price }, 0);
+      cartTotal = cartArr.reduce(function (acc, el: CartItem) { return acc + el.price*el.count }, 0);
       cartItems = cartArr.reduce(function (acc, el: CartItem) { return acc + el.count }, 0);
     }
 
