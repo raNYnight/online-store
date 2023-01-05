@@ -4,7 +4,7 @@ import { Product } from "../modules/interfaces";
 export abstract class Component {
   container: HTMLElement;
 
-  constructor(tagName: string, className: string, obj: Product[] = myJson) {
+  constructor(tagName: string, className: string, obj: Product[] | Product = myJson) {
     this.container = document.createElement(tagName);
     this.container.className = className;
   }
@@ -17,3 +17,4 @@ export abstract class Component {
     return this.container;
   }
 }
+

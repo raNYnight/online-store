@@ -6,6 +6,7 @@ import { SortComponent } from '../components/sort-div-component'
 import { myJson } from '..'
 import { makeFilteringObjectFromHash, myJsonWithFilters } from './filtering'
 import { CartComponent } from '../components/cart-component'
+import { SingleComponent } from '../components/single-product'
 
 export function build(page: string) {
   console.log(`func: build(${page})`)
@@ -21,6 +22,8 @@ export function build(page: string) {
     main.className = 'main'
     document.body.append(main)
     document.body.append(new FooterComponent().render())
+    console.log(myJson[1])
+    
   } else if (page === 'cart') {
     console.log('cart page')
     document.body.innerHTML = '';
@@ -30,6 +33,10 @@ export function build(page: string) {
 
   } else if (page.startsWith('item/')) {
     console.log('item page')
+    document.body.innerHTML = '';
+    document.body.append(new HeaderComponent().render())
+    document.body.append(new SingleComponent().render())
+    document.body.append(new FooterComponent().render())
 
   } else if (page.startsWith('filter/')) {
     let hash = window.location.hash.toString();

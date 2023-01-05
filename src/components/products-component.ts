@@ -64,9 +64,9 @@ export class ProductsComponent extends Component {
       btnAddToCart.className = 'item__add-to-card btn';
 
       if (!isIdInLocalStorage(data[i].id)) {
-        btnAddToCart.innerText = 'Add to card';
+        btnAddToCart.innerText = 'Add to cart';
       } else {
-        btnAddToCart.innerText = 'Remove from card';
+        btnAddToCart.innerText = 'Remove from cart';
         btnAddToCart.classList.add('active')
         item.classList.add('active')
       }

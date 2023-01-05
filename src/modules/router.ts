@@ -18,7 +18,11 @@ export function router(event: HashChangeEvent) { // срабатывает пр�
       let newJson = prods.renderObj(myJsonNew)
       document.querySelector('.products')?.replaceWith(newJson);
     }
-  } else {
+  } 
+  if(hash.startsWith('item/')){
+    build(hash);
+  }
+  else {
     build(hash);
   }
 }

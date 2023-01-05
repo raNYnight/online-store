@@ -53,6 +53,7 @@ export function itemDetailsClick(event: MouseEvent) {
   for (let i in item) {
     res += (`${i}: ${item[i as keyof Product]} \n`)
   }
+  window.location.hash = `item/${id}`
   alert(res)
   // alert(event.target.parentNode.parentNode.parentNode.querySelector('.products__item_header').innerText)
 }
@@ -71,10 +72,12 @@ export function addRemoveToCartClick(event: Event) {
     count: 1,
   }
   switch (target.textContent) {
-    case 'Add to card':
-      target.textContent = 'Remove from card'
-      item.classList.add('active')
-      target.classList.add('active')
+    case 'Add to cart':
+      target.textContent = 'Remove from cart'
+      if(item.classList.contains('products__item')){
+        addActiveClass(item)
+      }
+      addActiveClass(target)
       if (!localStorage.cart) {
         let arr: CartItem[] = [];
         arr.push(cartItem)
@@ -85,10 +88,12 @@ export function addRemoveToCartClick(event: Event) {
         localStorage.cart = JSON.stringify(arr)
       }
       break
-    case 'Remove from card':
-      target.textContent = 'Add to card'
-      item.classList.remove('active')
-      target.classList.remove('active')
+    case 'Remove from cart':
+      target.textContent = 'Add to cart'
+      if(item.classList.contains('products__item')){
+        removeActiveClass(item)
+      }
+      removeActiveClass(target)
       let arr = JSON.parse(localStorage.cart)
       localStorage.cart = JSON.stringify(arr.filter((el: CartItem) => el.id !== cartItem.id))
       break
@@ -97,6 +102,10 @@ export function addRemoveToCartClick(event: Event) {
   document.querySelector('.header')?.replaceWith(new HeaderComponent().render())
 
 }
+
+export const addActiveClass = (parent:HTMLElement) => parent.classList.add('active')
+export const removeActiveClass = (parent:HTMLElement) => parent.classList.remove('active')
+
 
 export function copyFilteringObject() {
   console.log('func: copyFilteringObject')
