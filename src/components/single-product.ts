@@ -3,6 +3,7 @@ import { addRemoveToCartClick, addActiveClass, removeActiveClass } from "../modu
 import { Product } from "../modules/interfaces";
 import { Component } from "./components";
 import { isIdInLocalStorage } from '../modules/cart'
+import { parse } from "path";
 
 export class SingleComponent extends Component {
     constructor(tagName: string = 'div', className: string = 'single-item', obj: Product[] = myJson) {
@@ -18,7 +19,7 @@ export class SingleComponent extends Component {
               itemWrapper = document.createElement('div'),
               itemImages = document.createElement('div'),
               itemImagesList = document.createElement('div'),
-              itemImageCurrent = document.createElement('div'),
+              itemImageCurrent = document.createElement('img') as HTMLImageElement,
               itemSpecifications = document.createElement('div'),
               itemBuy = document.createElement('div')
         console.log(item)
@@ -33,25 +34,24 @@ export class SingleComponent extends Component {
         itemWrapper.append(itemImages,itemSpecifications, itemBuy)
         itemSpecifications.classList.add('single-item__specifications')
         //IMAGES//
+        // const imageURLS = this.getImagesArray(item.images).then()
+        // setTimeout(()=> console.log(imageURLS,imageURLS.length), 1000)
+        // console.log(imageURLS, imageURLS.length)
         itemImages.append(itemImagesList,itemImageCurrent)
         itemImages.classList.add('single-item__images')
         itemImagesList.classList.add('single-item__images-list')
-        
         itemImageCurrent.classList.add('single-item__image_current')
-        itemImageCurrent.style.backgroundImage = `url('${item.images[0]}')`
-        for (let index = 1; index < item.images.length; index++) {
-            let element = item.images[index];
-            let imagesListItem = document.createElement('div')
-            itemImagesList.append(imagesListItem)
-            imagesListItem.classList.add('images-list__item')
-            imagesListItem.style.backgroundImage = `url('${element}')`
-        }
+        this.getSetImages(item.images, itemImageCurrent, itemImagesList)
+        
 
         itemImagesList.addEventListener('click', (e) => {
-            let target = e.target as HTMLElement
-            let tmp = target.style.backgroundImage 
-            target.style.backgroundImage = itemImageCurrent.style.backgroundImage
-            itemImageCurrent.style.backgroundImage = tmp
+            let target = e.target as HTMLImageElement
+            console.log(target)
+            if(target.classList.contains('images-list__item')){
+                let tmp = target.src
+                target.src= itemImageCurrent.src
+                itemImageCurrent.src= tmp
+            }
         })
 
         //Specification//
@@ -116,9 +116,39 @@ export class SingleComponent extends Component {
         itemBuy.append(btnBuy)
         btnBuy.textContent = 'Buy now'
 
+
+        
         this.container.append(itemNavigation,itemTitle,itemWrapper)
     }
-    
+   
+    getSetImages(arr:Product["images"], current:HTMLImageElement, side:HTMLElement){
+        let options = {
+            method: 'HEAD',
+          };
+        let images:string[] = []
+        let sizes:string[] = []
+        let responsesArr:Promise<Response>[]= []
+        arr.forEach(el=>responsesArr.push(fetch(el, options)))
+        Promise.all(responsesArr).then(responses=> {
+            responses.forEach((resp) => {
+                let size:string = resp.headers.get('content-length')!.toString()
+                let i = sizes.findIndex(x => x  === size)
+                if(i <= -1){
+                    sizes.push(size)
+                    images.push(resp.url.toString())
+                }
+            })
+        }).then(() => {
+            current.src = images[0]
+            for (let index = 1; index < images.length; index++) {
+                            let element = images[index];
+                            let imagesListItem = document.createElement('img')
+                            side.append(imagesListItem)
+                            imagesListItem.classList.add('images-list__item')
+                            imagesListItem.src = element
+                        }
+        })
+    }
     
     render() {
         this.renderSingleItem();

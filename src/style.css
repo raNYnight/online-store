@@ -577,23 +577,24 @@ input[type="range"]:active::-webkit-slider-thumb {
 }
 .single-item__images{
   display: flex;
+  gap: 10px;
 }
 .single-item__images-list{
   display: flex;
   flex-direction: column;
   width: 100px;
   height: 100%;
+  justify-content: space-between;
 }
 .images-list__item{
-  width: 70px;
-  height: 70px;
-  background-repeat: no-repeat;
-  background-size: cover;
+  width: 100px;
+  cursor: pointer;
 }
 .single-item__image_current{
-  width: 250px;
+  width: 300px;
   background-repeat: no-repeat;
   background-size: contain;
+  background-position-y: top;
 }
 
 .single-item__specifications{
