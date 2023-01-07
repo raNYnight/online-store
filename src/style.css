@@ -589,12 +589,14 @@ input[type="range"]:active::-webkit-slider-thumb {
 .images-list__item{
   width: 100px;
   cursor: pointer;
+  max-height: 100px;
 }
 .single-item__image_current{
   width: 300px;
   background-repeat: no-repeat;
   background-size: contain;
   background-position-y: top;
+  max-height: 370px;
 }
 
 .single-item__specifications{
