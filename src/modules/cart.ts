@@ -18,14 +18,14 @@ export function objFromLocalStorage(id: number) {
 }
 
 export function deleteObjFromLocalStorage(id: number) {
-  console.log('deleteObjFromLocalStorage')
+  // console.log('deleteObjFromLocalStorage')
   let cartArr: CartItem[]
   cartArr = JSON.parse(localStorage.cart);
   localStorage.cart = JSON.stringify(cartArr.filter((el: CartItem) => el.id !== id))
 }
 
 export function changeObjAmountInLocalStorage(id: number, operator: string) {
-  console.log('changeObjAmountInLocalStorage')
+  // console.log('changeObjAmountInLocalStorage')
   let cartArr: CartItem[]
   cartArr = JSON.parse(localStorage.cart);
   switch (operator) {
@@ -63,6 +63,6 @@ export function cartItemBtnHandler(event: Event) {
   const product = target.parentNode!.parentNode!.parentNode as HTMLElement
   const productId = +product.id.slice(3)
   const operator = target.innerText
-  console.log(operator)
+  // console.log(operator)
   changeObjAmountInLocalStorage(productId, operator)
 }

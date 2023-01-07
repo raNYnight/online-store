@@ -22,7 +22,7 @@ export class SingleComponent extends Component {
               itemImageCurrent = document.createElement('img') as HTMLImageElement,
               itemSpecifications = document.createElement('div'),
               itemBuy = document.createElement('div')
-        console.log(item)
+        // console.log(item)
         itemTitle.classList.add('single-item__title')
         itemTitle.textContent = item.title
 
@@ -46,7 +46,7 @@ export class SingleComponent extends Component {
 
         itemImagesList.addEventListener('click', (e) => {
             let target = e.target as HTMLImageElement
-            console.log(target)
+            // console.log(target)
             if(target.classList.contains('images-list__item')){
                 let tmp = target.src
                 target.src= itemImageCurrent.src

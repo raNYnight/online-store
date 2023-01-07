@@ -2,7 +2,7 @@ import { myJson } from "..";
 import { FilteringObject, Product } from "../modules/interfaces";
 import { copyHref, filterClick } from "../modules/buttons";
 import { Component } from "./components";
-import { filteringObject, makeFilteringObjectFromHash, resetFilteringObject } from "../modules/filtering";
+import { filteringObject, makeFilteringObjectFromHash, myJsonProps, resetFilteringObject } from "../modules/filtering";
 
 export class FilterComponent extends Component {
   constructor(tagName: string = 'aside', className: string = 'filter', obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
@@ -10,8 +10,7 @@ export class FilterComponent extends Component {
   }
 
   render(prod = myJson, filters: FilteringObject = filteringObject) {
-    console.log(`FilterComponent.render`)
-    console.log(filters)
+    // console.log(`FilterComponent.render`)
     let filter = makeFilteringObjectFromHash(window.location.hash)
     /* * * * * * * * * */
     /*  reset+copy btn */
@@ -34,16 +33,6 @@ export class FilterComponent extends Component {
     /* !!!!!!!!!!!!!!! */
     /* * * * * * * * * */
 
-    let categories = new Set();
-    let brands = new Set();
-
-    for (let i = 0; i < myJson.length; i++) {
-      categories.add(myJson[i].category); // .toLowerCase()
-      brands.add(myJson[i].brand); // .toLowerCase()
-    }
-    let categoriesArr = Array.from(categories);
-    let brandsArr = Array.from(brands);
-
     /* * * * * * * * * */
     /* Category filter */
     /* * * * * * * * * */
@@ -59,22 +48,22 @@ export class FilterComponent extends Component {
     filterListCategory.className = 'filter__list';
     filterListCategory.id = 'category-list';
 
-    for (let i = 0; i < categoriesArr.length; i++) {
+    for (let i = 0; i < myJsonProps.categories.length; i++) {
       const li = document.createElement('div');
       li.className = 'filter__list_item';
       const check = document.createElement('input');
       check.type = 'checkbox';
       check.name = 'category';
-      check.id = `${categoriesArr[i]}`;
+      check.id = `${myJsonProps.categories[i]}`;
       check.addEventListener('input', filterClick);
        /////////////////////////////////////////////////////////////////////////////////////////
-      if (filters.category.includes(`${categoriesArr[i]}`)) {
+      if (filters.category.includes(`${myJsonProps.categories[i]}`)) {
         check.checked = true
       }
 
       const label = document.createElement('label');
-      label.innerText = `${categoriesArr[i]}`;
-      label.setAttribute('for', `${categoriesArr[i]}`)
+      label.innerText = `${myJsonProps.categories[i]}`;
+      label.setAttribute('for', `${myJsonProps.categories[i]}`)
 
       li.append(check, label)
       filterListCategory.append(li)
@@ -95,21 +84,21 @@ export class FilterComponent extends Component {
     filterListBrand.className = 'filter__list';
     filterListBrand.id = 'brands';
 
-    for (let i = 0; i < brandsArr.length; i++) {
+    for (let i = 0; i < myJsonProps.brands.length; i++) {
       const li = document.createElement('div');
       li.className = 'filter__list_item';
       const check = document.createElement('input');
       check.type = 'checkbox';
       check.name = 'brand';
-      check.id = `${brandsArr[i]}`;
+      check.id = `${myJsonProps.brands[i]}`;
 
-      if (filters.brand.includes(`${brandsArr[i]}`)) {
+      if (filters.brand.includes(`${myJsonProps.brands[i]}`)) {
         check.checked = true
       }
 
       const label = document.createElement('label');
-      label.innerText = `${brandsArr[i]}`;
-      label.setAttribute('for', `${brandsArr[i]}`)
+      label.innerText = `${myJsonProps.brands[i]}`;
+      label.setAttribute('for', `${myJsonProps.brands[i]}`)
 
       li.append(check, label)
       li.addEventListener('input', filterClick);
