@@ -1,10 +1,12 @@
 import { myJson } from "..";
 import { addRemoveToCartClick, addActiveClass, removeActiveClass } from "../modules/buttons";
-import { FilteringObject, Product } from "../modules/interfaces";
+import { CartItem, FilteringObject, Product } from "../modules/interfaces";
 import { Component } from "./components";
 import { isIdInLocalStorage } from '../modules/cart'
 import { filteringObject } from "../modules/filtering";
-
+import { Modal } from './modal-component'
+import { build } from '../modules/page-builder'
+import { HeaderComponent } from "./header-component";
 export class SingleComponent extends Component {
     constructor(tagName: string = 'div', className: string = 'single-item', obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
         super(tagName, className, obj)
@@ -34,9 +36,6 @@ export class SingleComponent extends Component {
         itemWrapper.append(itemImages,itemSpecifications, itemBuy)
         itemSpecifications.classList.add('single-item__specifications')
         //IMAGES//
-        // const imageURLS = this.getImagesArray(item.images).then()
-        // setTimeout(()=> console.log(imageURLS,imageURLS.length), 1000)
-        // console.log(imageURLS, imageURLS.length)
         itemImages.append(itemImagesList,itemImageCurrent)
         itemImages.classList.add('single-item__images')
         itemImagesList.classList.add('single-item__images-list')
@@ -115,6 +114,20 @@ export class SingleComponent extends Component {
         btnBuy.classList.add('btn')
         itemBuy.append(btnBuy)
         btnBuy.textContent = 'Buy now'
+        btnBuy.addEventListener('click', this.buyNow)
+        btnBuy.addEventListener('click', ()=> {
+            
+            window.location.hash = 'cart'
+            
+            setTimeout(()=>{
+                let modal= new Modal()
+                if(!document.querySelector('.modal')){
+                    document.body.appendChild(modal.render())
+                }
+                 modal.openModal()
+            },0)
+            
+        })
 
           this.container.append(itemNavigation, itemTitle, itemWrapper)
           return this.container;
@@ -149,4 +162,40 @@ export class SingleComponent extends Component {
         })
 
     }
+    buyNow (event: Event){
+        console.log('buyNOW')
+        const target = event.target as HTMLInputElement;
+        const addToCartBTN = document.querySelector('.item__add-to-card') as HTMLElement
+        let item = target.parentNode!.parentNode! as HTMLElement
+        let itemId = +item.id.slice(8)
+        let res = myJson.find((el) => el.id === itemId)
+        let cartItem: CartItem = {
+            id: res!.id,
+            price: res!.price,
+            count: 1,
+        }
+        switch(addToCartBTN.textContent){
+            case 'Add to cart':
+                addToCartBTN.textContent =  'Remove from cart'
+                addActiveClass(addToCartBTN)
+                if (!localStorage.cart) {
+                    let arr: CartItem[] = [];
+                    arr.push(cartItem)
+                    localStorage.cart = JSON.stringify(arr)
+                  } else {
+                    let arr = JSON.parse(localStorage.cart)
+                    arr.push(cartItem)
+                    localStorage.cart = JSON.stringify(arr)
+                  }
+            break
+            case 'Remove from cart':
+                addToCartBTN.textContent =  'Add to cart'
+                removeActiveClass(addToCartBTN)
+                let arr = JSON.parse(localStorage.cart)
+                localStorage.cart = JSON.stringify(arr.filter((el: CartItem) => el.id !== cartItem.id))
+            break
+            }
+            document.querySelector('.header')?.replaceWith(new HeaderComponent().render())
+    }
+    
 }
