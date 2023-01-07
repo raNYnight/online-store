@@ -1,3 +1,4 @@
+import { myJson } from "..";
 import { CartItem } from "./interfaces";
 import { build } from "./page-builder";
 
@@ -31,7 +32,9 @@ export function changeObjAmountInLocalStorage(id: number, operator: string) {
     case '+':
       cartArr.forEach((val) => {
         if (val.id === id) {
-          val.count += 1;
+          if (val.count < myJson.find((el) => el.id === id)!.stock) { /////////////////////// 
+            val.count += 1;
+          }
         }
         return val;
       })

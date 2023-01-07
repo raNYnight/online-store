@@ -1,19 +1,20 @@
 import { myJson } from "..";
-import { Product } from "../modules/interfaces";
+import { filteringObject } from "../modules/filtering";
+import { FilteringObject, Product } from "../modules/interfaces";
 
 export abstract class Component {
   container: HTMLElement;
+  data: Product[];
+  filter: FilteringObject;
 
-  constructor(tagName: string, className: string, obj: Product[] | Product = myJson) {
+  constructor(tagName: string, className: string, obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
     this.container = document.createElement(tagName);
     this.container.className = className;
+    this.data = obj;
+    this.filter = filterObj
   }
 
-  render() {
-    return this.container;
-  }
-  renderObj(obj: Product[]) {
-    console.log(obj)
+  render(myJsonObj: Product[], filterObj: FilteringObject) {
     return this.container;
   }
 }

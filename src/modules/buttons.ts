@@ -1,41 +1,24 @@
 import { myJson } from ".."
 import { HeaderComponent } from "../components/header-component"
-import { changeFilteringObject, makeHashFromfFilteringObject } from "./filtering"
-import { CartItem, FilteringObject, Product } from "./interfaces"
-import { build } from "./page-builder"
+import { changeFilteringObject, filteringObject, makeHashFromfFilteringObject } from "./filtering"
+import { CartItem, Product } from "./interfaces"
 
-export let filteringObject: FilteringObject = {
-  name: '',
-  category: [],
-  brand: [],
-  minStock: 0,
-  maxStock: 200,
-  minPrice: 0,
-  maxPrice: 2000,
-}
 
-export function resetFilteringObject() {
-  console.log('func: resetFilteringObject')
-  filteringObject = {
-    name: '',
-    brand: [],
-    category: [],
-    minStock: 0,
-    maxStock: 200,
-    minPrice: 0,
-    maxPrice: 2000
-  }
-  window.location.hash = 'main'
-  build('main')
-}
+
 
 export function filterClick(event: Event) {
   const target = event.target as HTMLInputElement;
   console.log('func: filterClick')
+  console.log(filteringObject)
   if (target.id.includes('slider')) {
     changeFilteringObject(target.id, target.value)
   } if (target.id.includes('search')) {
     changeFilteringObject(target.id, target.value)
+    setTimeout(() => {
+      let search = document.getElementById('search') as HTMLElement;
+      search.focus();
+    }, 100)
+   
   } else if (target.tagName === 'BUTTON') {
   } else {
     changeFilteringObject(target.name, target.id)
@@ -54,12 +37,7 @@ export function itemDetailsClick(event: MouseEvent) {
     res += (`${i}: ${item[i as keyof Product]} \n`)
   }
   window.location.hash = `item/${id}`
-  alert(res)
-  // alert(event.target.parentNode.parentNode.parentNode.querySelector('.products__item_header').innerText)
 }
-
-
-// Обновляем данные корзины(сумма покупок и кол-во) в localStorage и на странице
 
 export function addRemoveToCartClick(event: Event) {
   const target = event.target as HTMLInputElement;
@@ -107,8 +85,8 @@ export const addActiveClass = (parent:HTMLElement) => parent.classList.add('acti
 export const removeActiveClass = (parent:HTMLElement) => parent.classList.remove('active')
 
 
-export function copyFilteringObject() {
-  console.log('func: copyFilteringObject')
+export function copyHref() {
+  console.log('func: copyHref')
   navigator.clipboard.writeText(window.location.href)
   alert(`page ${window.location.href} coppied into clipboard!`)
 }

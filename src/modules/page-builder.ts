@@ -1,53 +1,39 @@
 import { HeaderComponent } from '../components/header-component'
 import { FooterComponent } from '../components/footer-component'
-import { FilterComponent } from '../components/filter-component'
+import { FilterComponent } from '../components/aside-component'
 import { ProductsComponent } from '../components/products-component'
 import { SortComponent } from '../components/sort-div-component'
 import { myJson } from '..'
-import { makeFilteringObjectFromHash, myJsonWithFilters } from './filtering'
+import { filteringObject, makeFilteringObjectFromHash, myJsonWithFilters } from './filtering'
 import { CartComponent } from '../components/cart-component'
 import { SingleComponent } from '../components/single-product'
+import { ErrorComponent } from '../components/error-component'
 
 export function build(page: string) {
   console.log(`func: build(${page})`)
-  if (page === 'main') {
-    document.body.innerHTML = '';
-    document.body.prepend(new HeaderComponent().render())
-    let aside = new FilterComponent();
-    let sort = new SortComponent();
-    let prods = new ProductsComponent();
-    document.body.append(aside.renderObj());
-    const main = document.createElement('main');
-    main.append(sort.render(), prods.renderObj())
-    main.className = 'main'
-    document.body.append(main)
-    document.body.append(new FooterComponent().render())
-    console.log(myJson[1])
-    
-  } else if (page === 'cart') {
-    console.log('cart page')
-    document.body.innerHTML = '';
-    document.body.append(new HeaderComponent().render())
-    document.body.append(new CartComponent().render())
-    document.body.append(new FooterComponent().render())
-
-  } else if (page.startsWith('item/')) {
-    console.log('item page')
-    document.body.innerHTML = '';
-    document.body.append(new HeaderComponent().render())
-    document.body.append(new SingleComponent().render())
-    document.body.append(new FooterComponent().render())
-
-  } else if (page.startsWith('filter/')) {
+  document.body.innerHTML = '';
+  document.body.append(new HeaderComponent().render())
+  if (page.startsWith('main/')) { 
     let hash = window.location.hash.toString();
-    let obj = makeFilteringObjectFromHash(hash)
-    let myJsonNew = myJsonWithFilters(myJson, obj)
-    build('main');
-    const prods = new ProductsComponent;
-    const products = document.querySelector('.products');
-    products?.replaceWith(prods.renderObj(myJsonNew))
+    let filters = makeFilteringObjectFromHash(hash)
+    let myJsonNew = myJsonWithFilters(myJson, filteringObject)
+    document.body.innerHTML = '';
+    document.body.append(new HeaderComponent().render())
+    document.body.append(new FilterComponent().render(myJson, filteringObject));
+    const main = document.createElement('main');
+    main.append(new SortComponent().render(myJson, filteringObject))
+    main.append(new ProductsComponent().render())
+    main.className = 'main'
+    document.body.append(main);
+    (document.querySelector('#found_products') as HTMLElement).innerText = `${myJsonNew.length}`;
+    document.body.append(new FooterComponent().render())
+  } else if (page === 'cart') {
+    document.body.append(new CartComponent().render())
+  } else if (page.startsWith('item/')) {
+    document.body.append(new SingleComponent().render())
   } else {
-    console.log('else (404?)')
+    document.body.append(new ErrorComponent().render())
   }
+    document.body.append(new FooterComponent().render())
 }
 

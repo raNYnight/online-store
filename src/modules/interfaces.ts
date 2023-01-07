@@ -1,9 +1,3 @@
-export interface ResponseObj {
-  limit: number;
-  products: Product[]
-  skip: number;
-  total: number
-}
 export interface Product {
   brand: string;
   category: string;
@@ -14,7 +8,7 @@ export interface Product {
   price: number;
   rating: number;
   stock: number;
-  thumbnail: any;
+  thumbnail: string;
   title: string;
 }
 

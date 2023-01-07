@@ -1,17 +1,21 @@
 import { myJson } from "..";
-import { Product } from "../modules/interfaces";
+import { FilteringObject, Product } from "../modules/interfaces";
 import { addRemoveToCartClick, itemDetailsClick } from "../modules/buttons";
 import { Component } from "./components";
 import { isIdInLocalStorage } from "../modules/cart";
+import { filteringObject, makeFilteringObjectFromHash, myJsonWithFilters } from "../modules/filtering";
 
 export class ProductsComponent extends Component {
-  constructor(tagName: string = 'section', className: string = 'products', obj: Product[] = myJson) {
-    super(tagName, className, obj)
+  constructor(tagName: string = 'section', className: string = 'products', obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
+    super(tagName, className, obj, filterObj)
   }
 
-  renderProducts(obj: Product[]) {
+  render(obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
     console.log(`func: renderProducts`)
-    let data = obj;
+    console.log(filterObj)
+    makeFilteringObjectFromHash(window.location.hash)
+    let data = myJsonWithFilters(obj, filteringObject)
+    console.log(data)
 
     for (let i: number = 0; i < data.length; i += 1) {
       const item = document.createElement('div');
@@ -19,16 +23,10 @@ export class ProductsComponent extends Component {
       item.id = `product-${data[i].id}`
       item.style.backgroundImage = `url(${data[i].thumbnail})`
       item.style.backgroundSize = 'cover'
-      // `url(${data[i].thumbnail}) 0% 0% / cover;`
 
       const itemHeader = document.createElement('span');
       itemHeader.className = 'products__item_header';
       itemHeader.innerText = data[i].title;
-
-      // const itemImg = document.createElement('img');
-      // itemImg.src = data[i].thumbnail;
-      // itemImg.alt = 'image';
-      // itemImg.className = 'products__item_img';
 
       const itemInfo = document.createElement('div');
       itemInfo.className = 'products__item_info';
@@ -44,18 +42,6 @@ export class ProductsComponent extends Component {
       const itemPrice = document.createElement('span');
       itemPrice.className = 'item__price';
       itemPrice.innerText = `Price: ${data[i].price}`
-
-      // const itemDiscount = document.createElement('span');
-      // itemDiscount.className = 'item__discount';
-      // itemDiscount.innerText = `Discount: ${data[i].discountPercentage}`
-
-      // const itemRating = document.createElement('span');
-      // itemRating.className = 'item__rating';
-      // itemRating.innerText = `Rating: ${data[i].rating}`
-
-      // const itemStock = document.createElement('span');
-      // itemStock.className = 'item__stock';
-      // itemStock.innerText = `Stock: ${data[i].stock}`
 
       const itemButtons = document.createElement('div');
       itemButtons.className = 'products__item_buttons';
@@ -83,13 +69,6 @@ export class ProductsComponent extends Component {
       item.append(itemHeader, itemInfo, itemButtons)
       this.container.append(item);
     }
-  }
-
-  renderObj(obj: Product[] = myJson) {
-    console.log(`func: renderObj`)
-    this.renderProducts(obj);
     return this.container;
-    
   }
-
 }

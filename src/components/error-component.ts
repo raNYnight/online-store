@@ -7,16 +7,11 @@ export class ErrorComponent extends Component {
     super(tagName, className, obj)
   }
 
-  renderPageError() {
+  render() {
     const error = document.createElement('span');
     error.innerText = 'there is no such page'
 
     this.container.append(error);
-  }
-
-  render() {
-    this.renderPageError();
     return this.container;
   }
-
 }

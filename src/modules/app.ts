@@ -6,8 +6,8 @@ export class App {
   static renderNewPage(pageId: string = 'main') {
     document.body.innerHTML = '';
     if ((window.location.hash).slice(1) === '') {
-      pageId = 'main';
-      window.location.hash = 'main';
+      pageId = 'main/';
+      window.location.hash = 'main/';
     } else {
       pageId = (window.location.hash).slice(1);
     }

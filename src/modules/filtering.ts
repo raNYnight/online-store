@@ -1,5 +1,30 @@
-import { filteringObject, resetFilteringObject } from "./buttons";
 import { FilteringObject, Product } from "./interfaces";
+import { build } from "./page-builder";
+
+export let filteringObject: FilteringObject = {
+  name: '',
+  category: [],
+  brand: [],
+  minStock: 0,
+  maxStock: 200,
+  minPrice: 0,
+  maxPrice: 2000,
+}
+
+export function resetFilteringObject() {
+  console.log('func: resetFilteringObject')
+  filteringObject = {
+    name: '',
+    brand: [],
+    category: [],
+    minStock: 0,
+    maxStock: 200,
+    minPrice: 0,
+    maxPrice: 2000
+  }
+  window.location.hash = 'main/'
+  build('main/')
+}
 
 export function changeFilteringObject(prop: string, value: string) { // from filters
   console.log('func: changeFilteringObject')
@@ -89,49 +114,34 @@ export function makeHashFromfFilteringObject(filteringObject: FilteringObject) {
     stockRangeMax.innerHTML = filteringObject.maxStock.toString();
   }
   let newHash = arr.join('&');
-  return ((newHash === '') ? 'main' : 'filter/' + newHash)
+  return ('main/' + newHash)
 }
 
 export function makeFilteringObjectFromHash(hash: string) {
   console.log('func: makeFilteringObjectFromHash')
-  let newFilteringObject = {
-    name: '',
-    brand: [''],
-    category: [''],
-    minStock: 0,
-    maxStock: 200,
-    minPrice: 0,
-    maxPrice: 2000,
-  }
-  let arr = decodeURI(hash).slice(8).split('&');
+  let arr = decodeURI(hash).slice(6).split('&');
   console.log('!', arr)
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].includes('name')) {
-      newFilteringObject.name = arr[i].replace('name=', '');
+      filteringObject.name = arr[i].replace('name=', '');
     }
     if (arr[i].includes('brand')) {
-      newFilteringObject.brand = arr[i].replace('brand=', '').split(',');
+      filteringObject.brand = arr[i].replace('brand=', '').split(',');
     }
     if (arr[i].includes('category')) {
-      newFilteringObject.category = arr[i].replace('category=', '').split(',');;
+      filteringObject.category = arr[i].replace('category=', '').split(',');;
     }
     if (arr[i].includes('minStock')) {
-      newFilteringObject.minStock = +arr[i].replace('minStock=', '');
+      filteringObject.minStock = +arr[i].replace('minStock=', '');
     }
     if (arr[i].includes('maxStock')) {
-      newFilteringObject.maxStock = +arr[i].replace('maxStock=', '');
+      filteringObject.maxStock = +arr[i].replace('maxStock=', '');
     }
     if (arr[i].includes('minPrice')) {
-      newFilteringObject.minPrice = +arr[i].replace('minPrice=', '');
+      filteringObject.minPrice = +arr[i].replace('minPrice=', '');
     }
     if (arr[i].includes('maxPrice')) {
-      newFilteringObject.maxPrice = +arr[i].replace('maxPrice=', '');
+      filteringObject.maxPrice = +arr[i].replace('maxPrice=', '');
     }
   }
-  console.log(newFilteringObject)
-  return (newFilteringObject)
 }
-
-// export function drawFilteringObjectOnPage(filteringObject: FilteringObject) {
-
-// }

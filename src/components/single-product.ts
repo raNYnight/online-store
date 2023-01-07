@@ -1,16 +1,16 @@
 import { myJson } from "..";
 import { addRemoveToCartClick, addActiveClass, removeActiveClass } from "../modules/buttons";
-import { Product } from "../modules/interfaces";
+import { FilteringObject, Product } from "../modules/interfaces";
 import { Component } from "./components";
 import { isIdInLocalStorage } from '../modules/cart'
-import { parse } from "path";
+import { filteringObject } from "../modules/filtering";
 
 export class SingleComponent extends Component {
-    constructor(tagName: string = 'div', className: string = 'single-item', obj: Product[] = myJson) {
+    constructor(tagName: string = 'div', className: string = 'single-item', obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
         super(tagName, className, obj)
       }
 
-    renderSingleItem () {
+      render(obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
         const hash = window.location.hash,
               singleItemId = hash.slice(6,hash.length),
               item = myJson[+singleItemId - 1],
@@ -116,9 +116,8 @@ export class SingleComponent extends Component {
         itemBuy.append(btnBuy)
         btnBuy.textContent = 'Buy now'
 
-
-        
-        this.container.append(itemNavigation,itemTitle,itemWrapper)
+          this.container.append(itemNavigation, itemTitle, itemWrapper)
+          return this.container;
     }
    
     getSetImages(arr:Product["images"], current:HTMLImageElement, side:HTMLElement){
@@ -148,11 +147,6 @@ export class SingleComponent extends Component {
                             imagesListItem.src = element
                         }
         })
-    }
-    
-    render() {
-        this.renderSingleItem();
-        return this.container;
-      }
 
+    }
 }

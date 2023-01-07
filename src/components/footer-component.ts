@@ -5,7 +5,7 @@ export class FooterComponent extends Component {
     super(tagName, className)
   }
 
-  renderPageFooter() {
+  render() {
     const footerGit = document.createElement('a');
     footerGit.href = 'https://github.com/';
     footerGit.className = 'footer__git';
@@ -19,11 +19,7 @@ export class FooterComponent extends Component {
     footerRss.className = 'footer__rss';
 
     this.container.append(footerGit, footerYear, footerRss);
-  }
 
-  render() {
-    this.renderPageFooter();
     return this.container;
   }
-
 }

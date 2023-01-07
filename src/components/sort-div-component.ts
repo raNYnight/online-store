@@ -1,14 +1,15 @@
 import { myJson } from "..";
-import { Product } from "../modules/interfaces";
+import { FilteringObject, Product } from "../modules/interfaces";
 import { filterClick } from "../modules/buttons";
 import { Component } from "./components";
+import { filteringObject } from "../modules/filtering";
 
 export class SortComponent extends Component {
-  constructor(tagName: string = 'div', className: string = 'sort', obj: Product[] = myJson) {
+  constructor(tagName: string = 'div', className: string = 'sort', obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
     super(tagName, className, obj)
   }
 
-  async renderSort() {
+  render(myJsonObj: Product[], filterObj: FilteringObject) {
     const sortDiv = document.createElement('div');
     sortDiv.className = 'products__sort';
 
@@ -44,7 +45,7 @@ export class SortComponent extends Component {
     sortFoundSpan1.innerText = 'Products found:';
     const sortFoundSpan2 = document.createElement('span');
     sortFoundSpan2.id = 'found_products';
-    sortFoundSpan2.innerText = '100';
+    sortFoundSpan2.innerText = `${myJsonObj.length}`;
     sortFound.append(sortFoundSpan1, sortFoundSpan2)
 
     const search = document.createElement('div');
@@ -57,6 +58,7 @@ export class SortComponent extends Component {
     searchInput.id = 'search';
     searchInput.placeholder = 'Search on Online shop!';
     searchInput.autocomplete = "off";
+    searchInput.value = filterObj.name
     searchInput.addEventListener('input', filterClick)
 
     search.append(searchInput);
@@ -71,11 +73,7 @@ export class SortComponent extends Component {
 
     sortDiv.append(sortSettings, search, sortFound, sortView)
     this.container.append(sortDiv)
-  }
 
-  render() {
-    this.renderSort();
     return this.container;
   }
-
 }

@@ -1,4 +1,5 @@
 import { myJson } from "..";
+import { resetFilteringObject } from "../modules/filtering";
 import { CartItem, Product } from "../modules/interfaces";
 import { Component } from "./components";
 
@@ -7,7 +8,7 @@ export class HeaderComponent extends Component {
     super(tagName, className, obj)
   }
 
-  renderPageHeader() {
+  render() {
     let cartArr: CartItem[]
     let cartTotal = 0
     let cartItems = 0
@@ -22,13 +23,14 @@ export class HeaderComponent extends Component {
     logoImg.alt = 'logo';
     logoImg.className = 'header__logo';
     logoImg.onclick = function () {
-      window.location.href = 'http://localhost:8080/#main'
+      resetFilteringObject()
+      window.location.hash = 'main/'
     }
 
     const cartDiv = document.createElement('div');
     cartDiv.className = 'header__basket';
     cartDiv.onclick = function () {
-      window.location.href = 'http://localhost:8080/#cart'
+      window.location.hash = 'cart'
     }
 
     const cartCount = document.createElement('div');
@@ -49,11 +51,6 @@ export class HeaderComponent extends Component {
     headerTotal.append(headerTotalSpan, headerTotalSum)
 
     this.container.append(logoImg, cartDiv, headerTotal);
-  }
-
-  render() {
-    this.renderPageHeader();
     return this.container;
   }
-
 }

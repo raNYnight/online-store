@@ -8,7 +8,7 @@ export class CartComponent extends Component {
     super(tagName, className, obj)
   }
 
-  renderPageCart() {
+  render() {
     const cartList = document.createElement('div');
     cartList.className = 'cart-list';
     /////////////// temp
@@ -92,12 +92,8 @@ export class CartComponent extends Component {
         cartList.append(cartItem)
       }
     }
-    this.container.append(cartList,temp);
-  }
-
-  render() {
-    this.renderPageCart();
+    this.container.append(cartList, temp);
+    
     return this.container;
   }
-
 }
