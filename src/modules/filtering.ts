@@ -1,4 +1,5 @@
-import { FilteringObject, Product } from "./interfaces";
+import { myJson } from "..";
+import { FilteringObject, MyJsonProps, Product } from "./interfaces";
 import { build } from "./page-builder";
 
 export let filteringObject: FilteringObject = {
@@ -9,10 +10,36 @@ export let filteringObject: FilteringObject = {
   maxStock: 200,
   minPrice: 0,
   maxPrice: 2000,
+  sort: 'default'
+}
+export const myJsonProps: MyJsonProps = {
+  categories: [],
+  brands: [],
+  prices: {
+    min: 0,
+    max: 0,
+  },
+  stocks: {
+    min: 0,
+    max: 0,
+  }
+
+} 
+
+export function makeMyJsonProperties() {
+  const categoriesSet: Set<string> = new Set();
+  const brandsSet: Set<string> = new Set();
+  for (let i = 0; i < myJson.length; i++) {
+    categoriesSet.add(myJson[i].category); // .toLowerCase()
+    brandsSet.add(myJson[i].brand); // .toLowerCase()
+  }
+  myJsonProps.categories = [...categoriesSet]
+  myJsonProps.brands = [...brandsSet]
+  // console.log(myJsonProps)
 }
 
+
 export function resetFilteringObject() {
-  console.log('func: resetFilteringObject')
   filteringObject = {
     name: '',
     brand: [],
@@ -20,14 +47,15 @@ export function resetFilteringObject() {
     minStock: 0,
     maxStock: 200,
     minPrice: 0,
-    maxPrice: 2000
+    maxPrice: 2000,
+    sort: 'default'
   }
   window.location.hash = 'main/'
   build('main/')
 }
 
 export function changeFilteringObject(prop: string, value: string) { // from filters
-  console.log('func: changeFilteringObject')
+  // console.log('func: changeFilteringObject')
   if (prop === 'filter__reset') {
     resetFilteringObject()
   } else if (prop === 'category') {
@@ -53,11 +81,13 @@ export function changeFilteringObject(prop: string, value: string) { // from fil
   } else if (prop === 'search') {
     filteringObject.name = value;
   }
+  // console.log(filteringObject)
 }
 
 export function myJsonWithFilters(data: Product[], obj: FilteringObject) {
-  console.log('func: myJsonWithFilters')
-  let result = data
+  // console.log('func: myJsonWithFilters')
+  let arr: Product[] = Object.assign(data)
+  let result = arr
     .filter(elem => {
       if (obj.brand.length > 0) return obj.brand.some(tag => elem.brand.includes(tag))
       else return elem
@@ -76,18 +106,14 @@ export function myJsonWithFilters(data: Product[], obj: FilteringObject) {
         if (isTitleIncludes || isCategoryIncludes || isBrandIncludes || isDescriptionIncludes) return elem;
       } else return elem
     })
-    .filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice));
+    .filter((el) => el.stock >= Number(obj.minStock) && el.stock <= Number(obj.maxStock) && el.price >= Number(obj.minPrice) && el.price <= Number(obj.maxPrice))
+    sortProducts(result, filteringObject.sort)
   return result
 }
 
 export function makeHashFromfFilteringObject(filteringObject: FilteringObject) {
-  console.log('func: makeHashFromfFilteringObject')
+  // console.log('func: makeHashFromfFilteringObject')
   let arr = [];
-  const priceRangeMin = document.querySelector('#price-range-min') as HTMLInputElement
-  const priceRangeMax = document.querySelector('#price-range-max') as HTMLInputElement
-  const stockRangeMin = document.querySelector('#stock-range-min') as HTMLInputElement
-  const stockRangeMax = document.querySelector('#stock-range-max') as HTMLInputElement
-
   if (filteringObject.name !== '') {
     arr.push(`name=${filteringObject.name}`)
   }
@@ -99,28 +125,26 @@ export function makeHashFromfFilteringObject(filteringObject: FilteringObject) {
   }
   if (filteringObject.minPrice !== 0) {
     arr.push(`minPrice=${filteringObject.minPrice}`);
-    priceRangeMin.innerHTML = filteringObject.minPrice.toString();
   }
   if (filteringObject.maxPrice !== 2000) {
     arr.push(`maxPrice=${filteringObject.maxPrice}`);
-    priceRangeMax.innerHTML = filteringObject.maxPrice.toString();
   }
   if (filteringObject.minStock !== 0) {
     arr.push(`minStock=${filteringObject.minStock}`);
-    stockRangeMin.innerHTML = filteringObject.minStock.toString();
   }
   if (filteringObject.maxStock !== 200) {
     arr.push(`maxStock=${filteringObject.maxStock}`);
-    stockRangeMax.innerHTML = filteringObject.maxStock.toString();
+  }
+  if (filteringObject.sort !== '') {
+    arr.push(`sort=${filteringObject.sort}`);
   }
   let newHash = arr.join('&');
   return ('main/' + newHash)
 }
 
 export function makeFilteringObjectFromHash(hash: string) {
-  console.log('func: makeFilteringObjectFromHash')
+  // console.log('func: makeFilteringObjectFromHash')
   let arr = decodeURI(hash).slice(6).split('&');
-  console.log('!', arr)
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].includes('name')) {
       filteringObject.name = arr[i].replace('name=', '');
@@ -143,5 +167,29 @@ export function makeFilteringObjectFromHash(hash: string) {
     if (arr[i].includes('maxPrice')) {
       filteringObject.maxPrice = +arr[i].replace('maxPrice=', '');
     }
+    if (arr[i].includes('sort')) {
+      filteringObject.sort = arr[i].replace('sort=', '');
+    }
+  }
+}
+
+export function sortProducts(obj: Product[] = myJson, order: string) {
+  // console.log(`sortProducts ${order}`)
+  switch (order) {
+    case 'default':
+      myJson.sort((a, b) => a.id - b.id)
+      break;
+    case 'price🠗':
+      myJson.sort((a,b) => b.price - a.price)
+      break;
+    case 'price🠕':
+      myJson.sort((a,b) => a.price - b.price)
+      break;
+    case 'rating🠕':
+      myJson.sort((a, b) => b.rating - a.rating)
+      break;
+    case 'rating🠗':
+      myJson.sort((a,b) => a.rating - b.rating)
+      break;
   }
 }

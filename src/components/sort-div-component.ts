@@ -19,24 +19,45 @@ export class SortComponent extends Component {
     const sort = document.createElement('select');
     sort.name = ('sort');
     sort.id = 'sorting';
+    sort.addEventListener('input', filterClick)
+
+    const sortDefault = document.createElement('option');
+    sortDefault.value = 'unsorted';
+    sortDefault.innerText = '--Sort options--';
+    if (filteringObject.sort !== '') {
+      sortDefault.selected = true
+      sortDefault.disabled = true
+    }
 
     const priceDown = document.createElement('option');
-    priceDown.value = 'price 🠗';
+    priceDown.value = 'price🠗';
     priceDown.innerText = 'Sort by price 🠗';
+    if (filteringObject.sort === priceDown.value) {
+      priceDown.selected = true
+    }
 
     const priceUp = document.createElement('option');
-    priceUp.value = 'price 🠕';
+    priceUp.value = 'price🠕';
     priceUp.innerText = 'Sort by price 🠕';
+    if (filteringObject.sort === priceUp.value) {
+      priceUp.selected = true
+    }
 
-    const stockDown = document.createElement('option');
-    stockDown.value = 'stock 🠗';
-    stockDown.innerText = 'Sort by stock 🠗';
+    const ratingDown = document.createElement('option');
+    ratingDown.value = 'rating🠗';
+    ratingDown.innerText = 'Sort by rating 🠗';
+    if (filteringObject.sort === ratingDown.value) {
+      ratingDown.selected = true
+    }
 
-    const stockUp = document.createElement('option');
-    stockUp.value = 'stock 🠕';
-    stockUp.innerText = 'Sort by stock 🠕';
+    const ratingUp = document.createElement('option');
+    ratingUp.value = 'rating🠕';
+    ratingUp.innerText = 'Sort by rating 🠕';
+    if (filteringObject.sort === ratingUp.value) {
+      ratingUp.selected = true
+    }
 
-    sort.append(priceDown, priceUp, stockDown, stockUp)
+    sort.append(sortDefault, priceDown, priceUp, ratingDown, ratingUp)
     sortSettings.append(sort);
 
     const sortFound = document.createElement('div');

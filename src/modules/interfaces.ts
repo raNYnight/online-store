@@ -19,7 +19,8 @@ export interface FilteringObject {
   minStock: number,
   maxStock: number,
   minPrice: number,
-  maxPrice: number
+  maxPrice: number,
+  sort: string,
 }
 
 export interface Fill {
@@ -30,3 +31,17 @@ export interface CartItem {
   price: number,
   count: number,
 }
+
+export interface MyJsonProps {
+  categories: string[],
+  brands: string[],
+  prices: {
+    min: number,
+    max: number,
+  },
+  stocks: {
+    min: number,
+    max: number,
+  }
+
+} 

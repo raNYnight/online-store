@@ -10,12 +10,12 @@ import { SingleComponent } from '../components/single-product'
 import { ErrorComponent } from '../components/error-component'
 
 export function build(page: string) {
-  console.log(`func: build(${page})`)
+  // console.log(`func: build(${page})`)
   document.body.innerHTML = '';
   document.body.append(new HeaderComponent().render())
   if (page.startsWith('main/')) { 
     let hash = window.location.hash.toString();
-    let filters = makeFilteringObjectFromHash(hash)
+    // let filters = makeFilteringObjectFromHash(hash)
     let myJsonNew = myJsonWithFilters(myJson, filteringObject)
     document.body.innerHTML = '';
     document.body.append(new HeaderComponent().render())

@@ -11,11 +11,9 @@ export class ProductsComponent extends Component {
   }
 
   render(obj: Product[] = myJson, filterObj: FilteringObject = filteringObject) {
-    console.log(`func: renderProducts`)
-    console.log(filterObj)
+    // console.log(`func: renderProducts`)
     makeFilteringObjectFromHash(window.location.hash)
     let data = myJsonWithFilters(obj, filteringObject)
-    console.log(data)
 
     for (let i: number = 0; i < data.length; i += 1) {
       const item = document.createElement('div');
@@ -38,6 +36,14 @@ export class ProductsComponent extends Component {
       const itemBrand = document.createElement('span');
       itemBrand.className = 'item__brand';
       itemBrand.innerText = `Brand: ${data[i].brand}`
+
+      const itemRating = document.createElement('span');
+      itemRating.className = 'item__rating';
+      itemRating.innerText = `Rating: ${data[i].rating}`
+
+      const itemStock = document.createElement('span');
+      itemStock.className = 'item__stock';
+      itemStock.innerText = `Stock: ${data[i].stock}`
 
       const itemPrice = document.createElement('span');
       itemPrice.className = 'item__price';
@@ -64,7 +70,7 @@ export class ProductsComponent extends Component {
       btnInfo.addEventListener('click', itemDetailsClick);
 
       itemButtons.append(btnAddToCart, btnInfo);
-      itemInfo.append(itemCategory, itemBrand, itemPrice,); //itemDiscount, itemRating, itemStock);
+      itemInfo.append(itemCategory, itemBrand, itemRating, itemStock, itemPrice,); //itemDiscount, itemRating, itemStock);
 
       item.append(itemHeader, itemInfo, itemButtons)
       this.container.append(item);

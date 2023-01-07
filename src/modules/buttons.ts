@@ -4,12 +4,9 @@ import { changeFilteringObject, filteringObject, makeHashFromfFilteringObject } 
 import { CartItem, Product } from "./interfaces"
 
 
-
-
 export function filterClick(event: Event) {
   const target = event.target as HTMLInputElement;
-  console.log('func: filterClick')
-  console.log(filteringObject)
+  // console.log('func: filterClick')
   if (target.id.includes('slider')) {
     changeFilteringObject(target.id, target.value)
   } if (target.id.includes('search')) {
@@ -18,8 +15,10 @@ export function filterClick(event: Event) {
       let search = document.getElementById('search') as HTMLElement;
       search.focus();
     }, 100)
-   
-  } else if (target.tagName === 'BUTTON') {
+  } else if (target.id === 'sorting') {
+    filteringObject.sort = target.value;
+    console.log(target.value);
+    changeFilteringObject('sort', target.value)
   } else {
     changeFilteringObject(target.name, target.id)
   }
@@ -27,7 +26,7 @@ export function filterClick(event: Event) {
 }
 
 export function itemDetailsClick(event: MouseEvent) {
-  console.log('func: itemDetailsClick')
+  // console.log('func: itemDetailsClick')
   const target = event.target as HTMLElement;
   const prod = target.parentNode?.parentNode as HTMLElement;
   const id = + prod.id.replace('product-', '')
@@ -52,7 +51,7 @@ export function addRemoveToCartClick(event: Event) {
   switch (target.textContent) {
     case 'Add to cart':
       target.textContent = 'Remove from cart'
-      if(item.classList.contains('products__item')){
+      if (item.classList.contains('products__item')) {
         addActiveClass(item)
       }
       addActiveClass(target)
@@ -68,7 +67,7 @@ export function addRemoveToCartClick(event: Event) {
       break
     case 'Remove from cart':
       target.textContent = 'Add to cart'
-      if(item.classList.contains('products__item')){
+      if (item.classList.contains('products__item')) {
         removeActiveClass(item)
       }
       removeActiveClass(target)
@@ -76,17 +75,18 @@ export function addRemoveToCartClick(event: Event) {
       localStorage.cart = JSON.stringify(arr.filter((el: CartItem) => el.id !== cartItem.id))
       break
   }
-  console.log('func: addToCartClick')
+  // console.log('func: addToCartClick')
   document.querySelector('.header')?.replaceWith(new HeaderComponent().render())
 
 }
 
-export const addActiveClass = (parent:HTMLElement) => parent.classList.add('active')
-export const removeActiveClass = (parent:HTMLElement) => parent.classList.remove('active')
+export const addActiveClass = (parent: HTMLElement) => parent.classList.add('active')
+export const removeActiveClass = (parent: HTMLElement) => parent.classList.remove('active')
 
 
 export function copyHref() {
-  console.log('func: copyHref')
+  // console.log('func: copyHref')
   navigator.clipboard.writeText(window.location.href)
   alert(`page ${window.location.href} coppied into clipboard!`)
 }
+

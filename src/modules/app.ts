@@ -1,3 +1,4 @@
+import { makeMyJsonProperties } from './filtering';
 import { build } from './page-builder';
 import { router } from './router';
 
@@ -15,7 +16,8 @@ export class App {
   }
 
   run() {
-    console.log('app.run()')
+    // console.log('app.run()')
+    makeMyJsonProperties();
     App.renderNewPage();
     window.addEventListener("hashchange", router);
   }
