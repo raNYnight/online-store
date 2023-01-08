@@ -653,6 +653,10 @@ color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
 }
 .modal__close-btn{
   position: absolute;
@@ -726,6 +730,15 @@ color: #fff;
     width: 100%;
     padding-left: 10px;
 }
+.card-number__wrapper{
+  row-gap: 0;
+  flex-wrap: wrap;
+}
+.card__additional{
+  flex-wrap: wrap;
+text-align: left;
+row-gap: 0;
+}
 .card__type{
   width: 30px;
   height: 20px;
@@ -742,9 +755,23 @@ color: #fff;
 width: 100%;
 }
 #invalidCard,
-#invalid{
+#invalid,
+#numErr{
   font-size: 0.8em;
 }
 .form__confirm-btn{
   margin-top: 10px;
+}
+
+#expSpan,
+#cvvSpan{
+  width: 45%;
+  font-size: 0.8em;
+}
+#numErr{
+  width: 100%;
+  text-align: left;
+}
+form span{
+  color : red
 }

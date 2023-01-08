@@ -58,7 +58,7 @@ export class Modal extends Component {
         personalName.childNodes[0].addEventListener('input', (e) => {
             let target = e.target as HTMLInputElement
             let span = personalName.childNodes[1] as HTMLSpanElement
-            if(!this.checkName(target.value.toString())){
+            if(!checkName(target.value.toString())){
                 span.textContent = 'Error! It should contain 2 words with at least 3 characters in each.'
                 span.style.color = 'red'
                 target.style.border = '2px red solid'
@@ -71,7 +71,7 @@ export class Modal extends Component {
         personalPhone.childNodes[0].addEventListener('input', (e)=> {
             let target = e.target as HTMLInputElement
             let span = personalPhone.childNodes[1] as HTMLSpanElement
-            if(!this.checkPhone(target.value.toString())){
+            if(!checkPhone(target.value.toString())){
                 span.textContent = 'Error! It should contain at least 9 numbers that starts with +'
                 span.style.color = 'red'
                 target.style.border = '2px red solid'
@@ -84,7 +84,7 @@ export class Modal extends Component {
         personalAdress.childNodes[0].addEventListener('input', (e)=> {
             let target = e.target as HTMLInputElement
             let span = personalAdress.childNodes[1] as HTMLSpanElement
-            if(!this.checkAddress(target.value.toString())){
+            if(!checkAddress(target.value.toString())){
                 span.textContent = 'Error! It should contain 3 words with at least 5 characters in each.'
                 span.style.color = 'red'
                 target.style.border = '2px red solid'
@@ -97,7 +97,7 @@ export class Modal extends Component {
         personalEmail.childNodes[0].addEventListener('input', (e)=> {
             let target = e.target as HTMLInputElement
             let span = personalEmail.childNodes[1] as HTMLSpanElement
-            if(!this.checkEmail(target.value.toString())){
+            if(!checkEmail(target.value.toString())){
                 span.textContent = 'Error! Enter correct email address'
                 span.style.color = 'red'
                 target.style.border = '2px red solid'
@@ -110,6 +110,13 @@ export class Modal extends Component {
 
         
         //form card  
+        const numErr = document.createElement('span')
+        numErr.id = 'numErr'
+        
+        const expErr = document.createElement('span')
+        expErr.id = 'expSpan'
+        const cvvErr = document.createElement('span')
+        cvvErr.id = 'cvvSpan'
         const invalidCard = document.createElement('span')
         invalidCard.id = 'invalidCard'
         formCardInfo.classList.add('card-info__wrapper')
@@ -120,7 +127,7 @@ export class Modal extends Component {
         cardNumber.maxLength = 16
         cardNumber.placeholder = 'Card number'
         cardNumber.classList.add('card-number__input')
-        cardNumberWrapper.append(cardType,cardNumber)
+        cardNumberWrapper.append(cardType,cardNumber,numErr)
         cardType.classList.add('card__type')
         cardType.src = 'https://e7.pngegg.com/pngimages/386/389/png-clipart-envelop-folder-credit-card-debit-card-cooperative-bank-computer-icons-credit-card-black-angle-text.png'
         const cardAdditional = document.createElement('div')
@@ -128,21 +135,23 @@ export class Modal extends Component {
         const cardValid = document.createElement('input')
         cardValid.placeholder = 'Exp date MMYY'
         cardValid.maxLength = 5
+        cardValid.id = 'expDate'
         const cardCVV = document.createElement('input')
         cardCVV.classList.add('card__input')
         cardValid.classList.add('card__input')
         cardCVV.placeholder = 'CVV'
         cardCVV.maxLength = 3
+        cardCVV.id = 'CVV'
         cardCVV.type = 'password'
-        cardAdditional.append(cardValid, cardCVV)
+        cardAdditional.append(cardValid, cardCVV,expErr,cvvErr)
         formCardInfo.append(cardNumberWrapper,cardAdditional,invalidCard)
 
         cardNumber.addEventListener('input', (e)=> {
             let target = e.target as HTMLInputElement
-            let span = formCardInfo.childNodes[2] as HTMLSpanElement
+            let span = document.querySelector("#numErr") as HTMLSpanElement
             let img = cardNumberWrapper.childNodes[0] as HTMLImageElement
             
-            if(!this.checkCardNumber(target.value.toString())){
+            if(!checkCardNumber(target.value.toString())){
                 span.textContent = 'Error! It should contain at least 16 numbers'
                 span.style.color = 'red'
                 target.style.border = '2px red solid'
@@ -173,17 +182,17 @@ export class Modal extends Component {
             }
             
         })
-        cardValid.addEventListener('input', this.addSlash)
+        cardValid.addEventListener('input', addSlash)
         cardValid.addEventListener('input', (e)=> {
             let target = e.target as HTMLInputElement
-            let span = formCardInfo.childNodes[2] as HTMLSpanElement
+            let span = document.querySelector("#expSpan") as HTMLSpanElement
             if(target.value.length === 3){
-                cardValid.removeEventListener('input', this.addSlash)
+                cardValid.removeEventListener('input', addSlash)
             }
             if(target.value.length === 1){
-                cardValid.addEventListener('input', this.addSlash)
+                cardValid.addEventListener('input', addSlash)
             }
-            if(!this.checkValidThru(target.value.toString())){
+            if(!checkValidThru(target.value.toString())){
                 span.textContent = 'Error! Expire date is incorrect'
                 span.style.color = 'red'
                 target.style.border = '2px red solid'
@@ -196,9 +205,9 @@ export class Modal extends Component {
         
         cardCVV.addEventListener('input', (e)=> {
             let target = e.target as HTMLInputElement
-            let span = formCardInfo.childNodes[2] as HTMLSpanElement
+            let span = document.querySelector("#cvvSpan") as HTMLSpanElement
             target.value = target.value.replace(/[^\d.]/g, '')
-            if(!this.checkCVV(target.value.toString())){
+            if(!checkCVV(target.value.toString())){
                 span.textContent = 'Error! CVV is incorrect'
                 span.style.color = 'red'
                 target.style.border = '2px red solid'
@@ -210,7 +219,7 @@ export class Modal extends Component {
         })
 
 
-        confirmOrderBTN.addEventListener('click', this.orderModal)
+        confirmOrderBTN.addEventListener('click', validateForm)
 
 
 
@@ -218,6 +227,7 @@ export class Modal extends Component {
         this.container.append(modalWrapper)
         return this.container;
     }
+    
     openModal (){
         let modal = document.querySelector('.modal') as HTMLElement
         addActiveClass(modal)
@@ -230,71 +240,127 @@ export class Modal extends Component {
         })
         
     }
-    orderModal (){
-        const modalWrapper = document.querySelector('.modal__wrapper')
-        modalWrapper!.innerHTML = 'THANKS FOR YOUR ORDER'
-        setTimeout(()=>{
-            localStorage.cart = ''
-            window.location.hash = 'main/'
-        },3500)
+    
+      
+}
+export function checkName(value:string) {
+    let letters = /^[a-zA-Z]+$/;
+    let words = value.split(' ')
+    for (let i = 0; i < words.length; i++) {
+        const el = words[i];
+        if( el.length < 3 || !el.match(letters) || typeof el !== 'string') return false
+    }
+    if (words.length >= 2) return true
+    return false
+}
+
+export function checkAddress (value:string){
+    let letters = /^[a-zA-Z]+$/;
+    let words = value.split(' ')
+    for (let i = 0; i < words.length; i++) {
+        const el = words[i];
+        if( el.length < 5 || !el.match(letters) || typeof el !== 'string') return false
+    }
+    if (words.length >= 3) return true
+    return false
+}
+export function checkEmail (value:string){
+    let letters = /^[\w-\.]+@[\w-]+\.[a-z]{2,4}$/i
+    if(!value.match(letters)) return false
+    return true
+}
+export function checkCardNumber (value:string){
+    let numbers = /^[0-9]{16}$/
+    if(!value.match(numbers)) return false
+    return true
+}
+export function checkValidThru (value:string){
+    let numbers = /^\d+\/\d+$/
+    let month = `${value[0]}${value[1]}`
+    let year = `${value[3]}${value[4]}`
+    // let expire = [month, '/', year]
+    console.log(month,year)
+    if(Number(month) <=12 && Number(year) >= 23) return true
+    return false
+}
+export function addSlash(e:Event){
+    let target = e.target as HTMLInputElement 
+    let input = target.value.split('')
+    if(input.length === 2){
+        input.splice(2,0,'/')
+        target.value = input.join('')
+    }
+}
+export function checkCVV (value:string){
+    let numbers = /^[0-9]{3}$/
+    if(!value.match(numbers)) return false
+    return true
+}
+export function checkPhone(value:string) {
+    let numbers = /^\+[0-9]{9,}$/
+    if(!value.match(numbers)) return false
+    return true
+}
+export function orderModal (){
+    const confirmBTN = document.querySelector('.form__confirm-btn')
+    const modalWrapper = document.querySelector('.modal__wrapper')
+    modalWrapper!.innerHTML = ''
+    modalWrapper?.insertAdjacentHTML('afterbegin', `<p>THANKS FOR YOUR ORDER</p>
+    <p>You wil be redirected to the main page</p>` )
+    confirmBTN?.removeEventListener('click', orderModal)
+    setTimeout(()=>{
+        localStorage.cart = ''
+        window.location.hash = 'main/'
+    },3500)
+}
+export function validateForm (){
+    const name = document.querySelector('input[name="Name"]') as HTMLInputElement
+    const phone = document.querySelector('input[name="Phone"]') as HTMLInputElement
+    const address = document.querySelector('input[name="Adress"]') as HTMLInputElement
+    const email = document.querySelector('input[name="Email"]') as HTMLInputElement
+    const cardNumber = document.querySelector('.card-number__input') as HTMLInputElement
+    const numErr = document.querySelector('#numErr') as HTMLSpanElement
+    const expDate = document.querySelector('#expDate') as HTMLInputElement
+    const expErr = document.querySelector('#expSpan') as HTMLSpanElement
+    const cvv = document.querySelector('#CVV') as HTMLInputElement
+    const cvvErr = document.querySelector("#cvvSpan") as HTMLSpanElement
+    console.log(checkPhone(phone.value))
+    if (!checkName(name.value)){
+        name.nextSibling!.textContent = 'Error'
+        name.style.border = '2px solid red'
+    }
+    if (!checkPhone(phone.value)){
+        phone.nextSibling!.textContent = 'Error'
+        phone.style.border = '2px solid red'
+    }
+    if (!checkAddress(address.value)){
+        address.nextSibling!.textContent = 'Error'
+        address.style.border = '2px solid red'
+    }
+    if (!checkEmail(email.value)){
+        email.nextSibling!.textContent = 'Error'
+        email.style.border = '2px solid red'
+    }
+    if (!checkCardNumber(cardNumber.value)){
+        numErr.textContent = 'Error'
+        cardNumber.style.border = '2px solid red'
+    }
+    if (!checkValidThru(expDate.value)){
+        expErr.textContent = 'Error'
+        expDate.style.border = '2px solid red'
 
     }
-    checkName(value:string) {
-        let letters = /^[a-zA-Z]+$/;
-        let words = value.split(' ')
-        for (let i = 0; i < words.length; i++) {
-            const el = words[i];
-            if( el.length < 3 || !el.match(letters) || typeof el !== 'string') return false
+    if (!checkCVV(cvv.value)){
+        cvvErr.textContent = 'Error'
+        cvv.style.border = '2px solid red'
+    }
+    if ( checkName(name.value)&&
+        checkPhone(phone.value)&&
+        checkAddress(address.value)&&
+        checkEmail(email.value)&&
+        checkCardNumber(cardNumber.value)&&
+        checkValidThru(expDate.value)&&
+        checkCVV(cvv.value)){
+            orderModal()
         }
-        if (words.length >= 2) return true
-        return false
-    }
-    checkPhone(value:string) {
-        let numbers = /^\+[0-9]{9,}$/
-        if(!value.match(numbers)) return false
-        return true
-    }
-    checkAddress (value:string){
-        let letters = /^[a-zA-Z]+$/;
-        let words = value.split(' ')
-        for (let i = 0; i < words.length; i++) {
-            const el = words[i];
-            if( el.length < 5 || !el.match(letters) || typeof el !== 'string') return false
-        }
-        if (words.length >= 3) return true
-        return false
-    }
-    checkEmail (value:string){
-        let letters = /^[\w-\.]+@[\w-]+\.[a-z]{2,4}$/i
-        if(!value.match(letters)) return false
-        return true
-    }
-    checkCardNumber (value:string){
-        let numbers = /^[0-9]{16}$/
-        if(!value.match(numbers)) return false
-        return true
-    }
-    checkValidThru (value:string){
-        let numbers = /^\d+\/\d+$/
-        let month = `${value[0]}${value[1]}`
-        let year = `${value[3]}${value[4]}`
-        // let expire = [month, '/', year]
-        console.log(month,year)
-        if(Number(month) <=12 && Number(year) >= 23) return true
-        return false
-    }
-    addSlash(e:Event){
-        let target = e.target as HTMLInputElement 
-        let input = target.value.split('')
-        if(input.length === 2){
-            input.splice(2,0,'/')
-            target.value = input.join('')
-        }
-    }
-    checkCVV (value:string){
-        let numbers = /^[0-9]{3}$/
-        if(!value.match(numbers)) return false
-        return true
-    }
-    
 }
