@@ -1,4 +1,5 @@
 import { myJson } from "..";
+import { ObjectFromLocalStorage } from "../modules/cart";
 import { resetFilteringObject } from "../modules/filtering";
 import { CartItem, Product } from "../modules/interfaces";
 import { Component } from "./components";
@@ -9,14 +10,6 @@ export class HeaderComponent extends Component {
   }
 
   render() {
-    let cartArr: CartItem[]
-    let cartTotal = 0
-    let cartItems = 0
-    if (localStorage.cart) {
-      cartArr = JSON.parse(localStorage.cart);
-      cartTotal = cartArr.reduce(function (acc, el: CartItem) { return acc + el.price*el.count }, 0);
-      cartItems = cartArr.reduce(function (acc, el: CartItem) { return acc + el.count }, 0);
-    }
 
     const logoImg = document.createElement('img');
     logoImg.src = 'https://i.ibb.co/0DjfXtT/online-shop-high-resolution-logo-color-on-transparent-background.png';
@@ -35,7 +28,7 @@ export class HeaderComponent extends Component {
 
     const cartCount = document.createElement('div');
     cartCount.className = 'header__basket_items-count';
-    cartCount.innerText = `${cartItems}`;
+    cartCount.innerText = `${(new ObjectFromLocalStorage).cartItems}`;
 
     const headerTotal = document.createElement('div');
     headerTotal.className = 'header__total';
@@ -45,7 +38,7 @@ export class HeaderComponent extends Component {
 
     const headerTotalSum = document.createElement('span');
     headerTotalSum.className = 'header__total-sum'
-    headerTotalSum.innerText = `${cartTotal}$`
+    headerTotalSum.innerText = `$${(new ObjectFromLocalStorage).cartTotal.toFixed(2)}`
 
     cartDiv.append(cartCount);
     headerTotal.append(headerTotalSpan, headerTotalSum)
