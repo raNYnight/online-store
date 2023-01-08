@@ -31,10 +31,6 @@ export function itemDetailsClick(event: MouseEvent) {
   const prod = target.parentNode?.parentNode as HTMLElement;
   const id = + prod.id.replace('product-', '')
   const item = myJson[id - 1]
-  let res = ''
-  for (let i in item) {
-    res += (`${i}: ${item[i as keyof Product]} \n`)
-  }
   window.location.hash = `item/${id}`
 }
 

@@ -1,4 +1,5 @@
 import { myJson } from "..";
+import { itemDetailsClick } from "../modules/buttons";
 import { ObjectFromLocalStorage, cartItemBtnHandler, isIdInLocalStorage, objFromLocalStorage, promocodeHandler, promoList } from "../modules/cart";
 import { Product, Promocode } from "../modules/interfaces";
 import { build } from "../modules/page-builder";
@@ -185,6 +186,12 @@ export class CartComponent extends Component {
           cartItemImg.className = 'cart-item-img';
           cartItemImg.src = product.thumbnail;
           cartItemImg.alt = 'image';
+          cartItemImg.addEventListener('click', (event)=>{
+            const target = event.target as HTMLElement;
+            const prod = target.parentNode as HTMLElement;
+            const id = + prod.id.replace('id-', '')
+            window.location.hash = `item/${id}`
+          })
 
           const cartItemAbout = document.createElement('div');
           cartItemAbout.className = 'cart-item-about';
@@ -192,7 +199,12 @@ export class CartComponent extends Component {
           const cartItemName = document.createElement('p');
           cartItemName.className = 'cart-item-name';
           cartItemName.innerText = product.title
-
+          cartItemName.addEventListener('click', (event)=>{
+            const target = event.target as HTMLElement;
+            const prod = target.parentNode?.parentNode as HTMLElement;
+            const id = + prod.id.replace('id-', '')
+            window.location.hash = `item/${id}`
+          })
           const cartItemDesc = document.createElement('p');
           cartItemDesc.className = 'cart-item-desc';
           cartItemDesc.innerText = product.description;
@@ -239,6 +251,7 @@ export class CartComponent extends Component {
           cartItemAbout.append(cartItemName, cartItemDesc, cartItemRatingAndDiscount)
           cartItem.append(orderNum, cartItemImg, cartItemAbout, cartItemAside)
           cartList.append(cartItem)
+          
         }
       }
       this.container.append(cartList, summary);

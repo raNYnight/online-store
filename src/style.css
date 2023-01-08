@@ -498,6 +498,7 @@ input[type="range"]:active::-webkit-slider-thumb {
   height: 100px;
   object-fit: cover;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .cart-item-about {
@@ -510,7 +511,8 @@ input[type="range"]:active::-webkit-slider-thumb {
 .cart-item-name {
   border-bottom: 1px solid #ff3e55;
   font-size: 2em;
-  white-space: pre
+  white-space: pre;
+  cursor: pointer;
 }
 .cart-item-desc {
   font-size: 1em;
