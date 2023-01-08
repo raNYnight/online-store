@@ -3,6 +3,7 @@ import { ObjectFromLocalStorage, cartItemBtnHandler, isIdInLocalStorage, objFrom
 import { Product, Promocode } from "../modules/interfaces";
 import { build } from "../modules/page-builder";
 import { Component } from "./components";
+import { Modal } from "./modal-component";
 
 export class CartComponent extends Component {
   constructor(tagName: string = 'main', className: string = 'cart', obj: Product[] = myJson) {
@@ -145,6 +146,13 @@ export class CartComponent extends Component {
       const btnBuyNow = document.createElement('button')
       btnBuyNow.className = 'btn_buy'
       btnBuyNow.innerText = 'Buy now';
+      btnBuyNow.addEventListener('click',()=> {
+            let modal= new Modal()
+            if(!document.querySelector('.modal')){
+                document.body.appendChild(modal.render())
+            }
+             modal.openModal()
+    } )
 
       promocodeDiv.append(promocodeInput)
       productsAmount.append(productsAmountText, productsAmountValue)
