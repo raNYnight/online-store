@@ -20,7 +20,7 @@ export class Modal extends Component {
               personalAdress = document.createElement('li'),
               personalEmail = document.createElement('li'),
               formCardInfo = document.createElement('div')
-        
+              
         modal.classList.add('modal')
         modalWrapper.classList.add('modal__wrapper')
         modalCloseBTN.classList.add('modal__close-btn')
@@ -35,24 +35,40 @@ export class Modal extends Component {
         formCardHeader.textContent = 'Credit card details'
         //form personal
         buyForm.classList.add('form')
+        
         buyForm.append(formHeader ,formPersonalInfo,formCardHeader ,formCardInfo,confirmOrderBTN)
         formPersonalInfo.classList.add('personal-info__list')
         formPersonalInfo.append(personalName, personalPhone, personalAdress, personalEmail)
         let formPersonalInfoValues:string[] = ['Name', 'Phone', 'Email', 'Adress']
         let formPersonalInfoArr = [personalName, personalPhone, personalEmail, personalAdress]
         .forEach((el:HTMLElement, i:number) => {
+            let invalid = document.createElement('span')
+            invalid.id = 'invalid'
+            invalid.textContent = 'error!'
             let input = document.createElement('input')
             input.type = 'text'
             input.placeholder = formPersonalInfoValues[i]
             input.name = formPersonalInfoValues[i]
             input.classList.add('personal-info__input')
             el.classList.add('personal-info__item')
-            el.append(input)
+            el.append(input,invalid)
             
         })
+        personalName.childNodes[0].addEventListener('input', (e) => {
+            let target = e.target as HTMLInputElement
+            let span = personalName.childNodes[1] as HTMLSpanElement
+            if(!this.checkName(target.value.toString())){
+                span.textContent = 'Error, enter correct values'
+                span.style.color = 'red'
+                target.style.border = '2px red solid'
+            } else{
+                span.textContent = 'Correct'
+                span.style.color = 'green'
+                target.style.border = '2px green solid'
+            }
+        })
         
-        //form card 
-        
+        //form card  
         
         formCardInfo.classList.add('card-info__wrapper')
         const cardNumberWrapper = document.createElement('div')
@@ -74,16 +90,6 @@ export class Modal extends Component {
         cardAdditional.append(cardValid, cardCVV)
         formCardInfo.append(cardNumberWrapper,cardAdditional)
 
-
-
-
-        
-        
-        
-
-        
-
-
         this.container.append(modalWrapper)
         return this.container;
     }
@@ -100,6 +106,16 @@ export class Modal extends Component {
             }
         })
         
+    }
+    checkName(value:string) {
+        let letters = /^[a-zA-Z]+$/;
+        let words = value.split(' ')
+        for (let i = 0; i < words.length; i++) {
+            const el = words[i];
+            if( el.length < 3 || !el.match(letters) || typeof el !== 'string') return false
+        }
+        if (words.length >= 2) return true
+        return false
     }
 
 }
