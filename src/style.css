@@ -745,13 +745,17 @@ color: #fff;
 }
 .modal__wrapper{
   width: 320px;
-  height: 340px;
+  height: 550px;
   background-color: #ff3e55;
   position: relative;
   padding: 20px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
 }
 .modal__close-btn{
   position: absolute;
@@ -762,7 +766,7 @@ color: #fff;
   /* -webkit-text-fill-color: #a9000000; */
   font-size: 50px;
   font-weight: bold;
-  top: 10px;
+  top: 0;
   right: 10px;
   color: black;
   z-index: 42312;
@@ -777,41 +781,62 @@ color: #fff;
 
 /* FORM */
 .form {
-  height: 320px;
+  height: 525px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
 }
 .personal-info__list{
+  margin-top: 10px;
+  margin-bottom: 10px;
   list-style-type: none;
   width: 300px;
-  padding: 0;
+  padding: 5px;
+  background: #fff;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
 }
 .personal-info__item{
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .personal-info__input{
-  width: 296px;
+  width: 285px;
   margin: 0;
-  padding: 0;
+  padding: 5px;
 }
 
 .card-info__wrapper{
   width: 300px;
-    height: 85px;
-    /* background-color: aquamarine; */
+    height: 140px;
+    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    padding: 10px 0;
+    margin-top: 10px;
 }
 .card-number__wrapper,
 .card__additional{
   display: flex;
-  justify-content: center;
-  gap: 15px;
-  width: 80%;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 100%;
+    padding-left: 10px;
+}
+.card-number__wrapper{
+  row-gap: 0;
+  flex-wrap: wrap;
+}
+.card__additional{
+  flex-wrap: wrap;
+text-align: left;
+row-gap: 0;
 }
 .card__type{
   width: 30px;
@@ -819,4 +844,33 @@ color: #fff;
 }
 .card__input{
   width: 40%;
+  padding: 5px;
+}
+.card-number__input{
+  padding: 5px;
+  width: 220px;
+}
+#invalid{
+width: 100%;
+}
+#invalidCard,
+#invalid,
+#numErr{
+  font-size: 0.8em;
+}
+.form__confirm-btn{
+  margin-top: 10px;
+}
+
+#expSpan,
+#cvvSpan{
+  width: 45%;
+  font-size: 0.8em;
+}
+#numErr{
+  width: 100%;
+  text-align: left;
+}
+form span{
+  color : red
 }
