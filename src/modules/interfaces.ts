@@ -43,5 +43,10 @@ export interface MyJsonProps {
     min: number,
     max: number,
   }
-
 } 
+
+export interface Promocode {
+  name: string,
+  desc: string,
+  disc: number;
+}

@@ -1,5 +1,5 @@
 import { myJson } from "..";
-import { CartItem } from "./interfaces";
+import { CartItem, Promocode } from "./interfaces";
 import { build } from "./page-builder";
 
 export function isIdInLocalStorage(id: number) {
@@ -50,7 +50,7 @@ export function changeObjAmountInLocalStorage(id: number, operator: string) {
             val.count = 0;
             deleteObjFromLocalStorage(id)
           }
-          }
+        }
         return val;
       })
       break;
@@ -65,4 +65,57 @@ export function cartItemBtnHandler(event: Event) {
   const operator = target.innerText
   // console.log(operator)
   changeObjAmountInLocalStorage(productId, operator)
+}
+export const promoList: Promocode[] = [
+  {
+    name: 'rs',
+    desc: 'RS School',
+    disc: 5,
+  },
+  {
+    name: 'epam23',
+    desc: 'EPAM Systems',
+    disc: 10,
+  },
+  {
+    name: 'rsschool',
+    desc: 'Rolling Scopes School',
+    disc: 15,
+  },
+]
+
+export function promocodeHandler(promocode: string) {
+  let promoArr: Promocode[] = localStorage.promo ? JSON.parse(localStorage.promo) : [];
+  let promoIsInLocalStorage = promoArr.map((promo) => promo.name).includes(promocode)
+  if (!promoIsInLocalStorage) {
+    const promo = promoList.filter((promo) => promocode === promo.name)
+    promoArr.push(...promo)
+  } else {
+    promoArr = promoArr.filter((el) => el.name !== promocode)
+  }
+  localStorage.promo = JSON.stringify(promoArr)
+}
+
+export class ObjectFromLocalStorage {
+  constructor() {
+    if (!!localStorage.cart) {
+      this.cartArr = JSON.parse(localStorage.cart);
+      this.cartTotal = this.cartArr.reduce(function (acc, el: CartItem) { return acc + el.price * el.count }, 0);
+      this.cartItems = this.cartArr.reduce(function (acc, el: CartItem) { return acc + el.count }, 0);
+    } else {
+      this.cartArr = [];
+      this.cartTotal = 0
+      this.cartItems = 0
+    }
+    if (localStorage.promo) {
+      this.promoArr = JSON.parse(localStorage.promo);
+    } else {
+      this.promoArr = []
+    }
+
+  }
+  public cartArr: [];
+  public cartTotal: number;
+  public cartItems: number;
+  public promoArr: []
 }
