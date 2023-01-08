@@ -26,7 +26,6 @@ export function build(page: string) {
     main.className = 'main'
     document.body.append(main);
     (document.querySelector('#found_products') as HTMLElement).innerText = `${myJsonNew.length}`;
-    document.body.append(new FooterComponent().render())
   } else if (page === 'cart') {
     document.body.append(new CartComponent().render())
   } else if (page.startsWith('item/')) {

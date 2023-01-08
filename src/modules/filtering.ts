@@ -185,10 +185,10 @@ export function sortProducts(obj: Product[] = myJson, order: string) {
     case 'price🠕':
       myJson.sort((a,b) => a.price - b.price)
       break;
-    case 'rating🠕':
+    case 'rating🠗':
       myJson.sort((a, b) => b.rating - a.rating)
       break;
-    case 'rating🠗':
+    case 'rating🠕':
       myJson.sort((a,b) => a.rating - b.rating)
       break;
   }
