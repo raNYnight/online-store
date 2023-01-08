@@ -14,8 +14,7 @@ export function build(page: string) {
   document.body.innerHTML = '';
   document.body.append(new HeaderComponent().render())
   if (page.startsWith('main/')) { 
-    let hash = window.location.hash.toString();
-    // let filters = makeFilteringObjectFromHash(hash)
+    makeFilteringObjectFromHash(window.location.hash.toString())
     let myJsonNew = myJsonWithFilters(myJson, filteringObject)
     document.body.innerHTML = '';
     document.body.append(new HeaderComponent().render())
