@@ -210,7 +210,7 @@ export class FilterComponent extends Component {
     stockSliderMin.max = '200';
     stockSliderMin.value = `${filters.minStock}`;
     stockSliderMin.id = 'stock-slider-min';
-    stockSliderMin.addEventListener('click', filterClick);
+    stockSliderMin.addEventListener('change', filterClick);
     stockSliderMin.addEventListener('input', (e: Event) => {
       this.slideOne(stockSliderMin, stockSliderMax, stockRangeMin, 1)
     })
@@ -221,7 +221,7 @@ export class FilterComponent extends Component {
     stockSliderMax.max = '200';
     stockSliderMax.value = `${filters.maxStock}`;
     stockSliderMax.id = 'stock-slider-max';
-    stockSliderMax.addEventListener('click', filterClick);
+    stockSliderMax.addEventListener('change', filterClick);
     stockSliderMax.addEventListener('input', (e: Event) => {
       this.slideTwo(stockSliderMin, stockSliderMax, stockRangeMax, 1)
     })
@@ -240,7 +240,7 @@ export class FilterComponent extends Component {
 
   slideOne(range1: HTMLInputElement, range2: HTMLInputElement, valueBox: HTMLElement, gap: number) {
     if (parseInt(range2.value) - parseInt(range1.value) <= gap) {
-      range1.value = (parseInt(range1.value) + gap).toString();
+      range1.value = (parseInt(range2.value) - gap).toString();
     }
     valueBox.textContent = range1.value;
   }
