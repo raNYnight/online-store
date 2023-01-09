@@ -1,6 +1,6 @@
 import { myJson } from "..";
 import { FilteringObject, Product } from "../modules/interfaces";
-import { copyHref, filterClick } from "../modules/buttons";
+import { filterClick } from "../modules/buttons";
 import { Component } from "./components";
 import { filteringObject, makeFilteringObjectFromHash, myJsonProps, resetFilteringObject } from "../modules/filtering";
 
@@ -25,9 +25,19 @@ export class FilterComponent extends Component {
     const filterItemBtnCopy = document.createElement('button');
     filterItemBtnCopy.className = 'filter__copy';
     filterItemBtnCopy.id = 'filter__copy';
-    filterItemBtnCopy.innerText = 'Copy filters';
+    filterItemBtnCopy.innerText = 'Copy link';
+    filterItemBtnCopy.addEventListener('click', function (event) {
+      navigator.clipboard.writeText(window.location.href)
+      const target = event.target as HTMLElement;
+      target.classList.add('blink')
+      target.innerText = 'Coppied!';
+      setTimeout(() => {
+        target.innerText = 'Copy link'
+        target.classList.remove('blink')
+      }, 1000);
+      
 
-    filterItemBtnCopy.addEventListener('click', copyHref);
+    });
     filterItemBtns.append(filterItemBtnReset, filterItemBtnCopy)
     /* * * * * * * * * */
     /* !!!!!!!!!!!!!!! */

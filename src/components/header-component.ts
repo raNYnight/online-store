@@ -27,8 +27,14 @@ export class HeaderComponent extends Component {
     }
 
     const cartCount = document.createElement('div');
-    cartCount.className = 'header__basket_items-count';
-    cartCount.innerText = `${(new ObjectFromLocalStorage).cartItems}`;
+    if ((new ObjectFromLocalStorage).cartItems === 0) {
+      cartCount.className = 'hidden';
+    } else {
+      cartCount.className = 'header__basket_items-count';
+    }
+    const cartCountText = document.createElement('p');
+    cartCountText.innerText = `${(new ObjectFromLocalStorage).cartItems}`;
+    cartCount.append(cartCountText)
 
     const headerTotal = document.createElement('div');
     headerTotal.className = 'header__total';
