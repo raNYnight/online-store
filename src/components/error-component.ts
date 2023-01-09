@@ -3,15 +3,20 @@ import { Product } from "../modules/interfaces";
 import { Component } from "./components";
 
 export class ErrorComponent extends Component {
-  constructor(tagName: string = 'error', className: string = 'error', obj: Product[] = myJson) {
+  constructor(tagName: string = 'main', className: string = 'error', obj: Product[] = myJson) {
     super(tagName, className, obj)
   }
 
   render() {
-    const error = document.createElement('span');
-    error.innerText = 'there is no such page'
+    const errorEmoji = document.createElement('span');
+    errorEmoji.innerText = '😢'
+    errorEmoji.className = 'error-emoji'
 
-    this.container.append(error);
+    const errorText = document.createElement('span');
+    errorText.className = 'error-text'
+    errorText.innerText = 'There is no such page'
+
+    this.container.append(errorEmoji, errorText);
     return this.container;
   }
 }

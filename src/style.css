@@ -162,11 +162,11 @@
   background-color: lightcoral;
 }
 button:active {
-  background-color: lightcoral;
-  transform: translateY(2px);
+  background-color: #01866c;
+  transform: translateY(1px);
 }
 .blink {
-  background-color: lightcoral;
+  background-color: #01866c;
 }
 /* .filter__item:nth-last-child(-n+2) {
     height: 160px;
@@ -241,6 +241,7 @@ button:active {
   overflow-y: scroll;
   gap: 20px;
   padding: 20px;
+  margin: 2px;
 }
 .products__item {
   position: relative;
@@ -305,8 +306,8 @@ button:active {
 }
 .products__item.active {
   box-sizing: border-box;
-  border: 5px green solid;
-  box-shadow: 0px 0px 10px green;
+  border: 1px #01866c solid;
+  box-shadow: 0px 0px 10px 2px #1abc9c;
 }
 
 /* .products__item_img {
@@ -386,7 +387,9 @@ input[type="range"] {
   border-radius: 5px;
   background-color: #fff;
 }
-
+.filter__list_item > *{
+  margin-right: 10px;
+}
 input[type="range"]::-webkit-slider-runnable-track {
   -webkit-appearance: none;
   height: 5px;
@@ -502,7 +505,20 @@ input[type="range"]:active::-webkit-slider-thumb {
   display: block;
 }
 
-.error,
+.error {
+  grid-column: 1/3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.error-emoji {
+  font-size: 100px;
+}
+.error-text {
+  color: white;
+  font-size: 50px;
+}
 .cart {
   grid-row: 2/2;
   grid-column: 1/3;
@@ -519,15 +535,17 @@ input[type="range"]:active::-webkit-slider-thumb {
 
 .cart-list {
   grid-column: 1/1;
+  margin: 10px;
 }
 .cart-item {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
+  box-sizing: border-box;
   border: 1px solid #ff3e55;
   min-width: 100%;
   min-height: 120px;
-  margin: 10px 0 10px 0;
+  /* margin: 0 0 10px 0; */
 }
 .cart-item-order {
   align-self: center;
@@ -614,13 +632,18 @@ input[type="range"]:active::-webkit-slider-thumb {
   align-self: center;
   color: white;
 }
+.summary {
+  margin: 10px;
+}
 .summary-header,
 .products-in-cart {
-  margin: 20px;
+  /* margin: 20px; */
+  font-size: 32px;
+  width: 100%;
+  background-color: #ff3e55;
 }
 .summary-list {
   border: 1px solid #ff3e55;
-  margin: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
