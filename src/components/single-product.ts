@@ -188,12 +188,12 @@ export class SingleComponent extends Component {
                     localStorage.cart = JSON.stringify(arr)
                   }
             break
-            case 'Remove from cart':
-                addToCartBTN.textContent =  'Add to cart'
-                removeActiveClass(addToCartBTN)
-                let arr = JSON.parse(localStorage.cart)
-                localStorage.cart = JSON.stringify(arr.filter((el: CartItem) => el.id !== cartItem.id))
-            break
+            // case 'Remove from cart':
+            //     addToCartBTN.textContent =  'Add to cart'
+            //     removeActiveClass(addToCartBTN)
+            //     let arr = JSON.parse(localStorage.cart)
+            //     localStorage.cart = JSON.stringify(arr.filter((el: CartItem) => el.id !== cartItem.id))
+            // break
             }
             document.querySelector('.header')?.replaceWith(new HeaderComponent().render())
     }
