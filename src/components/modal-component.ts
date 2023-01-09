@@ -228,7 +228,13 @@ export class Modal extends Component {
         return this.container;
     }
     
-    openModal (){
+    openModal() {
+        let nodes = document.querySelector('body')?.childNodes as NodeList
+        for (let i = 0; i < nodes.length; i++) {
+            let node = nodes[i] as HTMLElement
+            if (node.className !== 'modal')
+            node.style.filter = ' blur(10px)'
+          }
         let modal = document.querySelector('.modal') as HTMLElement
         addActiveClass(modal)
         document.addEventListener('click', function clickOut(e){

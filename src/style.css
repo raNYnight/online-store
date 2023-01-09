@@ -46,6 +46,7 @@
   height: max-content;
   align-self: center;
   cursor: pointer;
+  margin: 20px;
 }
 
 .header__basket {
@@ -80,7 +81,7 @@
 .header__total {
   color: #ff3e55;
   width: 150px;
-  margin-left: 20px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -545,7 +546,8 @@ input[type="range"]:active::-webkit-slider-thumb {
   border: 1px solid #ff3e55;
   min-width: 100%;
   min-height: 120px;
-  /* margin: 0 0 10px 0; */
+  margin: 0 0 10px 0;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .cart-item-order {
   align-self: center;
@@ -618,7 +620,12 @@ input[type="range"]:active::-webkit-slider-thumb {
 .cart-item-count {
   min-width: 50px;
 }
-
+.btn_buy {
+  height: 50px;
+  width: 100px;
+  font-size: 20px;
+  border-radius: 10px;
+}
 .empty-cart {
   grid-column: 1/3;
   font-size: 50px;
@@ -727,11 +734,13 @@ input[type="range"]:active::-webkit-slider-thumb {
   align-self: center;
   max-width: 1400px;
   width: 950px;
-  height: 500px;
+  /* height: 500px; */
   border: #ff3e55 1px solid;
   display: flex;
   flex-direction: column;
-  padding: 0 10px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .single-item__wrapper {
   display: flex;
@@ -775,6 +784,7 @@ input[type="range"]:active::-webkit-slider-thumb {
   height: 75px;
   object-fit: cover;
   border-radius: 10px;
+  background-image: url('assets/img/placeholder.png');
 }
 .single-item__image_current {
   width: 300px;
@@ -784,6 +794,7 @@ input[type="range"]:active::-webkit-slider-thumb {
   background-size: contain;
   background-position-y: top;
   border-radius: 10px;
+  background-image: url('assets/img/placeholder.png');
 }
 
 .single-item__specifications {
@@ -812,7 +823,7 @@ input[type="range"]:active::-webkit-slider-thumb {
   align-items: center;
   gap: 10px;
   justify-content: flex-start;
-  align-self: center;
+  align-self: flex-end;
   width: 125px;
 }
 .single-item__buy .btn {
@@ -830,7 +841,7 @@ input[type="range"]:active::-webkit-slider-thumb {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(245, 247, 246, 0.9);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .modal__wrapper {
   width: 320px;
@@ -845,6 +856,8 @@ input[type="range"]:active::-webkit-slider-thumb {
   flex-direction: column;
   width: 100%;
   max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 1px #000;
 }
 .modal__close-btn {
   position: absolute;
@@ -881,11 +894,12 @@ input[type="range"]:active::-webkit-slider-thumb {
   margin-bottom: 10px;
   list-style-type: none;
   width: 300px;
-  padding: 5px;
+  padding: 10px;
   background: #fff;
   display: flex;
   gap: 5px;
   flex-direction: column;
+  border-radius: 10px;
 }
 .personal-info__item {
   width: 100%;
@@ -907,7 +921,8 @@ input[type="range"]:active::-webkit-slider-thumb {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
   margin-top: 10px;
 }
 .card-number__wrapper,
@@ -949,6 +964,10 @@ input[type="range"]:active::-webkit-slider-thumb {
 }
 .form__confirm-btn {
   margin-top: 10px;
+  height: 50px;
+  width: 150px;
+  border-radius: 10px;
+  font-size: 20px;
 }
 
 #expSpan,
