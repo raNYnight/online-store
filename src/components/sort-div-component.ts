@@ -87,9 +87,41 @@ export class SortComponent extends Component {
     const sortView = document.createElement('div');
     sortView.className = 'products__sort_view';
     const largeBar = document.createElement('div');
-    largeBar.className = 'bar large-bar'
+    largeBar.className = 'bar large-bar active'
+    let view = localStorage.view || 'big'
+    if (view === 'small') {
+      largeBar.className = 'bar large-bar'
+    } else {
+      largeBar.className = 'bar large-bar active'
+    }
+    largeBar.addEventListener('click', function () {
+      localStorage.view = 'big';
+      (document.querySelector('.large-bar') as HTMLElement).classList.add('active');
+      (document.querySelector('.small-bar') as HTMLElement).classList.remove('active');
+      (document.querySelector('.products') as HTMLElement).classList.remove('small');
+      const prodIt = document.querySelectorAll('.products__item') as NodeList
+      for (let i = 0; i < prodIt.length; i++) {
+        const item = prodIt[i] as HTMLElement;
+        item.classList.remove('small')
+        }
+    })
     const smallBar = document.createElement('div');
-    smallBar.className = 'bar small-bar'
+    if (view === 'small') {
+      smallBar.className = 'bar small-bar active'
+    } else {
+      smallBar.className = 'bar small-bar'
+    }
+    smallBar.addEventListener('click', function () {
+      localStorage.view = 'small';
+      (document.querySelector('.large-bar') as HTMLElement).classList.remove('active');
+      (document.querySelector('.small-bar') as HTMLElement).classList.add('active');
+      (document.querySelector('.products') as HTMLElement).classList.add('small');
+      const prodIt = document.querySelectorAll('.products__item') as NodeList
+      for (let i = 0; i < prodIt.length; i++) {
+        const item = prodIt[i] as HTMLElement;
+        item.classList.add('small')
+        }
+    })
     sortView.append(largeBar, smallBar);
 
     sortDiv.append(sortSettings, search, sortFound, sortView)

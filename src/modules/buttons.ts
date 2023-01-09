@@ -79,10 +79,3 @@ export function addRemoveToCartClick(event: Event) {
 export const addActiveClass = (parent: HTMLElement) => parent.classList.add('active')
 export const removeActiveClass = (parent: HTMLElement) => parent.classList.remove('active')
 
-
-export function copyHref() {
-  // console.log('func: copyHref')
-  navigator.clipboard.writeText(window.location.href)
-  alert(`page ${window.location.href} coppied into clipboard!`)
-}
-

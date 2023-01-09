@@ -14,14 +14,20 @@ export class ProductsComponent extends Component {
     // console.log(`func: renderProducts`)
     makeFilteringObjectFromHash(window.location.hash)
     let data = myJsonWithFilters(obj, filteringObject)
-
+    let view = localStorage.view || 'big'
     if (data.length > 0) {
       for (let i: number = 0; i < data.length; i += 1) {
         const item = document.createElement('div');
-        item.className = 'products__item';
+        if (view === 'small') {
+          item.className = 'products__item small';
+          this.container.classList.add('small')
+        } else {
+          item.className = 'products__item';
+        }
         item.id = `product-${data[i].id}`
-        item.style.backgroundImage = `url(${data[i].thumbnail})`
+        item.style.backgroundImage = `url(${data[i].thumbnail}) , url('../assets/img/placeholder.png')`
         item.style.backgroundSize = 'cover'
+        item.style.backgroundPosition = 'center'
   
         const itemHeader = document.createElement('span');
         itemHeader.className = 'products__item_header';
